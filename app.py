@@ -450,11 +450,14 @@ if predict_btn:
 
     cfg = MODE_CONFIG[mode]
     model_path, input_dim = MODEL_REGISTRY[mode]
+    # Attempt to pull from HF Hub before checking existence
+    ensure_model_exists(model_path)
     if not os.path.exists(model_path):
         st.error(
-            f"Model not trained yet: `{model_path}`\n\n"
-            f"Run: `python phase_8_deep_learning_model.py "
-            f"--input embeddings/{cfg['embedding_pkl']}`"
+            f"Model file not found: `{model_path}`\n\n"
+            f"The automatic download from Hugging Face Hub failed. "
+            f"To generate it yourself, run:\n"
+            f"`python phase_8_deep_learning_model.py --input embeddings/{cfg['embedding_pkl']}`"
         )
         st.stop()
 
