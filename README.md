@@ -23,8 +23,15 @@ A deep learning pipeline for predicting protein secondary structures (α-Helix, 
   - Tree-selected (109-dim & 12-dim)
 - **Interactive UI**: A Streamlit web app for real-time predictions, per-residue confidence visualization, and CSV exporting.
 
-## 🚀 Deployment (Hugging Face Spaces)
-The interactive web application is designed to be hosted on Hugging Face Spaces. Because the language model and trained weights are extremely large (~1.5GB+), they are tracked via Git LFS on the `hf-space` branch rather than the `main` GitHub repository.
+## 🚀 Deployment
+
+The interactive web application is deployed live on Hugging Face Spaces!
+👉 **[Try the Live App Here](https://huggingface.co/spaces/Chimera418/protien-ssp)**
+
+### Storage Architecture
+Because the pre-trained ProtT5 models and generated embeddings are extremely large (~28GB total), we utilize a decoupled architecture to bypass Git size limitations:
+- **Application Code:** Hosted on the [Hugging Face Space](https://huggingface.co/spaces/Chimera418/protien-ssp)
+- **Model Weights & Embeddings:** Hosted securely in a dedicated Hugging Face Model Hub at [Chimera418/prot-ssp-models](https://huggingface.co/Chimera418/prot-ssp-models). The app downloads these heavy files on-the-fly at runtime.
 
 ## 💻 Local Installation
 
