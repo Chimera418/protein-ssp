@@ -1,0 +1,151 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python .\run_boruta_on_pca.py
+
+[1/3] Loading PCA Embeddings
+------------------------------------------------------------
+23:37:26 | INFO     | Loaded 9,172 proteins with 739 PCA features.
+
+[2/3] Preparing Sample for Boruta
+------------------------------------------------------------
+23:37:26 | INFO     | Sampling 1000 proteins to run Boruta directly on PCA features...
+23:37:27 | INFO     | Sample matrix shape: (245410, 739) | Target classes: ['C' 'E' 'H']
+
+[3/3] Running Boruta on PCA
+------------------------------------------------------------
+23:37:27 | INFO     | Fitting Boruta on 739 features (this will take a few minutes)...
+Iteration:      1 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      2 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      3 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      4 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      5 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      6 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      7 / 30
+Confirmed:      0
+Tentative:      739
+Rejected:       0
+Iteration:      8 / 30
+Confirmed:      709
+Tentative:      30
+Rejected:       0
+Iteration:      9 / 30
+Confirmed:      709
+Tentative:      30
+Rejected:       0
+Iteration:      10 / 30
+Confirmed:      709
+Tentative:      30
+Rejected:       0
+Iteration:      11 / 30
+Confirmed:      709
+Tentative:      30
+Rejected:       0
+Iteration:      12 / 30
+Confirmed:      730
+Tentative:      9
+Rejected:       0
+Iteration:      13 / 30
+Confirmed:      730
+Tentative:      9
+Rejected:       0
+Iteration:      14 / 30
+Confirmed:      730
+Tentative:      9
+Rejected:       0
+Iteration:      15 / 30
+Confirmed:      730
+Tentative:      9
+Rejected:       0
+Iteration:      16 / 30
+Confirmed:      734
+Tentative:      5
+Rejected:       0
+Iteration:      17 / 30
+Confirmed:      734
+Tentative:      5
+Rejected:       0
+Iteration:      18 / 30
+Confirmed:      734
+Tentative:      5
+Rejected:       0
+Iteration:      19 / 30
+Confirmed:      736
+Tentative:      3
+Rejected:       0
+Iteration:      20 / 30
+Confirmed:      736
+Tentative:      3
+Rejected:       0
+Iteration:      21 / 30
+Confirmed:      736
+Tentative:      3
+Rejected:       0
+Iteration:      22 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      23 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      24 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      25 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      26 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      27 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      28 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+Iteration:      29 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+
+
+BorutaPy finished running.
+
+Iteration:      30 / 30
+Confirmed:      738
+Tentative:      1
+Rejected:       0
+
+============================================================
+BORUTA ON PCA RESULTS
+============================================================
+Total PCA features input  : 739
+Confirmed PCA features   : 739
+Tentative PCA features   : 1
+Rejected PCA features    : -1
+------------------------------------------------------------
+00:01:06 | INFO     | Confirmed PCA feature names (first 50): ['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6', 'PC7', 'PC8', 'PC9', 'PC10', 'PC11', 'PC12', 'PC13', 'PC14', 'PC15', 'PC16', 'PC17', 'PC18', 'PC19', 'PC20', 'PC21', 'PC22', 'PC23', 'PC24', 'PC25', 'PC26', 'PC27', 'PC28', 'PC29', 'PC30', 'PC31', 'PC32', 'PC33', 'PC34', 'PC35', 'PC36', 'PC37', 'PC38', 'PC39', 'PC40', 'PC41', 'PC42', 'PC43', 'PC44', 'PC45', 'PC46', 'PC47', 'PC48', 'PC49', 'PC50']...
+00:01:06 | INFO     | Saved Boruta PCA selector mask metadata -> models/boruta_pca_selector_mask.pkl
+00:01:06 | INFO     | Saved Boruta report -> output/boruta/boruta_pca_report.txt
+============================================================

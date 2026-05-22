@@ -1,0 +1,21 @@
+[1/5] Load Phase 2 curated sequences
+------------------------------------------------------------
+00:56:55 | INFO     |   Loaded 9,172 sequences from data/protein_sequences_curated.csv
+
+[2/5] Parse secondary structure labels from RCSB (ss.txt.gz)
+------------------------------------------------------------
+00:56:55 | INFO     |   Parsing labels from: raw_data\2026-05-17-ss.txt.gz
+00:56:57 | INFO     |   Found labels for 9,172 target sequences.
+
+[3/5] Map labels to curated sequences
+------------------------------------------------------------
+00:56:57 | INFO     |   Removed 0 sequences due to missing labels or length mismatch. Remaining: 9,172
+
+[4/5] Convert SST8 to SST3 labels
+------------------------------------------------------------
+
+[5/5] Export phase 3 labelled dataset to CSV
+------------------------------------------------------------
+00:56:57 | INFO     |   Final labelled dataset saved to: data\protein_labelled_curated.csv
+00:56:57 | INFO     |   Total sequences: 9,172
+00:56:57 | INFO     |   Report saved to: output/phase_3\dataset_phase_3_report.txt

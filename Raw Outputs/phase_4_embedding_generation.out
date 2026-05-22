@@ -1,0 +1,200 @@
+[1/5] Load dataset
+------------------------------------------------------------
+09:57:50 | INFO     |   Loaded 9,172 sequences from data/protein_labelled_curated.csv
+
+[2/5] Prepare subset for model comparison
+------------------------------------------------------------
+09:57:50 | INFO     |   Sampled 100 sequences for comparing transformer models.
+09:57:50 | INFO     |   Using device: cuda
+
+[3/5] Evaluate Models (Baseline Logistic Regression)
+------------------------------------------------------------
+09:57:50 | INFO     |   Evaluating Rostlab/prot_bert_bfd...
+09:57:50 | INFO     |   Loading model: Rostlab/prot_bert_bfd
+09:57:51 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"
+09:57:51 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_bert_bfd/6c5c8a55a52ff08a664dfd584aa1773f125a0487/tokenizer_config.json "HTTP/1.1 200 OK"
+09:57:51 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+09:57:52 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+09:57:52 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+09:57:52 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_bert_bfd/6c5c8a55a52ff08a664dfd584aa1773f125a0487/config.json "HTTP/1.1 200 OK"
+09:57:53 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:57:53 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+09:57:53 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/pytorch_model.bin "HTTP/1.1 302 Found"
+09:57:54 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:57:54 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd "HTTP/1.1 200 OK"
+09:57:55 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd/commits/main "HTTP/1.1 200 OK"
+09:57:55 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd/discussions?p=0 "HTTP/1.1 200 OK"
+Loading weights: 100%|██████████████████████| 487/487 [00:00<00:00, 53253.02it/s]
+[transformers] BertModel LOAD REPORT from: Rostlab/prot_bert_bfd
+Key                                        | Status     |  |
+-------------------------------------------+------------+--+-
+cls.predictions.transform.LayerNorm.weight | UNEXPECTED |  |
+cls.seq_relationship.bias                  | UNEXPECTED |  |
+cls.predictions.decoder.bias               | UNEXPECTED |  |
+cls.predictions.transform.dense.weight     | UNEXPECTED |  |
+cls.predictions.bias                       | UNEXPECTED |  |
+cls.predictions.transform.dense.bias       | UNEXPECTED |  |
+cls.seq_relationship.weight                | UNEXPECTED |  |
+cls.predictions.transform.LayerNorm.bias   | UNEXPECTED |  |
+cls.predictions.decoder.weight             | UNEXPECTED |  |
+
+Notes:
+- UNEXPECTED:   can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+09:57:56 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_bert_bfd/commits/refs%2Fpr%2F2 "HTTP/1.1 200 OK"
+  Extracting Rostlab/prot_bert_bfd:   0%|                 | 0/50 [00:00<?, ?it/s]09:57:56 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/refs%2Fpr%2F2/model.safetensors.index.json "HTTP/1.1 404 Not Found"    
+  Extracting Rostlab/prot_bert_bfd:   2%|▏        | 1/50 [00:00<00:18,  2.62it/s]09:57:56 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_bert_bfd/resolve/refs%2Fpr%2F2/model.safetensors "HTTP/1.1 302 Found"
+  Extracting Rostlab/prot_bert_bfd: 100%|████████| 50/50 [00:04<00:00, 12.18it/s]
+09:58:01 | INFO     |     Saved partial CSV (~1048 rows) to: output/phase_4\Rostlab_prot_bert_bfd_partial.csv
+09:58:09 | INFO     |   Rostlab/prot_bert_bfd → F1: 0.8148, AUC: 0.9391
+09:58:10 | INFO     |     Saved individual ROC graph → output/phase_4\roc_Rostlab_prot_bert_bfd.png
+09:58:10 | INFO     |   Evaluating Rostlab/prot_t5_xl_uniref50...
+09:58:10 | INFO     |   Loading model: Rostlab/prot_t5_xl_uniref50
+09:58:10 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+09:58:10 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/config.json "HTTP/1.1 200 OK"
+09:58:11 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"    
+09:58:11 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/tokenizer_config.json "HTTP/1.1 200 OK"
+09:58:11 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+09:58:11 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"       
+09:58:12 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+09:58:12 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/config.json "HTTP/1.1 200 OK"
+09:58:12 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:58:13 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors.index.json "HTTP/1.1 404 Not Found"      
+09:58:13 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/pytorch_model.bin "HTTP/1.1 302 Found"
+09:58:13 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:58:14 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50 "HTTP/1.1 200 OK"
+09:58:14 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/commits/main "HTTP/1.1 200 OK"
+09:58:14 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/discussions?p=0 "HTTP/1.1 200 OK"
+09:58:15 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/commits/refs%2Fpr%2F1 "HTTP/1.1 200 OK"
+09:58:15 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/refs%2Fpr%2F1/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+09:58:16 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/refs%2Fpr%2F1/model.safetensors "HTTP/1.1 302 Found"
+Loading weights: 100%|██████████████████████| 196/196 [00:00<00:00, 48750.73it/s]
+[transformers] T5EncoderModel LOAD REPORT from: Rostlab/prot_t5_xl_uniref50       
+Key            | Status     |  |
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  |
+
+Notes:
+- UNEXPECTED:   can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  Extracting Rostlab/prot_t5_xl_uniref50: 100%|██| 50/50 [00:13<00:00,  3.77it/s]
+09:58:42 | INFO     |     Saved partial CSV (~1048 rows) to: output/phase_4\Rostlab_prot_t5_xl_uniref50_partial.csv
+09:58:48 | INFO     |   Rostlab/prot_t5_xl_uniref50 → F1: 0.8498, AUC: 0.9559
+09:58:48 | INFO     |     Saved individual ROC graph → output/phase_4\roc_Rostlab_prot_t5_xl_uniref50.png
+09:58:48 | INFO     |   Evaluating Rostlab/prot_albert...
+09:58:48 | INFO     |   Loading model: Rostlab/prot_albert
+09:58:49 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/tokenizer_config.json "HTTP/1.1 404 Not Found"
+09:58:49 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+09:58:50 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+09:58:50 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/spiece.model "HTTP/1.1 307 Temporary Redirect"
+09:58:50 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_albert/2384f5574ea4b85218ae7d5e21d17957105e672e/spiece.model "HTTP/1.1 200 OK"
+09:58:51 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+09:58:51 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_albert/2384f5574ea4b85218ae7d5e21d17957105e672e/config.json "HTTP/1.1 200 OK"
+09:58:51 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:58:52 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+09:58:52 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/pytorch_model.bin "HTTP/1.1 302 Found"
+09:58:52 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+09:58:53 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert "HTTP/1.1 200 OK"
+Loading weights: 100%|███████████████████████████████████| 25/25 [00:00<?, ?it/s]
+[transformers] AlbertModel LOAD REPORT from: Rostlab/prot_albert
+Key                              | Status     |  |
+---------------------------------+------------+--+-
+predictions.decoder.weight       | UNEXPECTED |  |
+predictions.LayerNorm.weight     | UNEXPECTED |  |
+predictions.dense.weight         | UNEXPECTED |  |
+predictions.LayerNorm.bias       | UNEXPECTED |  |
+predictions.bias                 | UNEXPECTED |  |
+sop_classifier.classifier.weight | UNEXPECTED |  |
+predictions.decoder.bias         | UNEXPECTED |  |
+sop_classifier.classifier.bias   | UNEXPECTED |  |
+predictions.dense.bias           | UNEXPECTED |  |
+
+Notes:
+- UNEXPECTED:   can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+09:58:53 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert/commits/main "HTTP/1.1 200 OK"
+  Extracting Rostlab/prot_albert:   0%|                   | 0/50 [00:00<?, ?it/s]09:58:54 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert/discussions?p=0 "HTTP/1.1 200 OK"
+  Extracting Rostlab/prot_albert:   2%|▏          | 1/50 [00:00<00:18,  2.66it/s]09:58:54 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_albert/commits/refs%2Fpr%2F1 "HTTP/1.1 200 OK"
+  Extracting Rostlab/prot_albert:   4%|▍          | 2/50 [00:00<00:11,  4.13it/s]09:58:54 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/refs%2Fpr%2F1/model.safetensors.index.json "HTTP/1.1 404 Not Found"      
+  Extracting Rostlab/prot_albert:   6%|▋          | 3/50 [00:00<00:14,  3.32it/s]09:58:55 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_albert/resolve/refs%2Fpr%2F1/model.safetensors "HTTP/1.1 302 Found"
+  Extracting Rostlab/prot_albert: 100%|██████████| 50/50 [00:19<00:00,  2.57it/s]
+09:59:16 | INFO     |     Saved partial CSV (~1048 rows) to: output/phase_4\Rostlab_prot_albert_partial.csv
+10:00:52 | INFO     |   Rostlab/prot_albert → F1: 0.4423, AUC: 0.6616
+10:00:52 | INFO     |     Saved individual ROC graph → output/phase_4\roc_Rostlab_prot_albert.png
+10:00:52 | INFO     |   Evaluating yarongef/DistilProtBert...
+10:00:52 | INFO     |   Loading model: yarongef/DistilProtBert
+10:00:53 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+10:00:53 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/yarongef/DistilProtBert/4e7949fde6c65dd571b7533e7f64dfb6c6cd9d38/config.json "HTTP/1.1 200 OK"
+10:00:53 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"        
+10:00:53 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/yarongef/DistilProtBert/4e7949fde6c65dd571b7533e7f64dfb6c6cd9d38/tokenizer_config.json "HTTP/1.1 200 OK"
+10:00:54 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+10:00:54 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"
+10:00:54 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+10:00:54 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/yarongef/DistilProtBert/4e7949fde6c65dd571b7533e7f64dfb6c6cd9d38/config.json "HTTP/1.1 200 OK"
+10:00:55 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+Loading weights: 100%|██████████████████████| 245/245 [00:00<00:00, 54189.97it/s]
+[transformers] BertModel LOAD REPORT from: yarongef/DistilProtBert
+Key                                        | Status     |
+-------------------------------------------+------------+-
+cls.predictions.transform.LayerNorm.weight | UNEXPECTED |
+cls.predictions.decoder.bias               | UNEXPECTED |
+cls.predictions.transform.dense.weight     | UNEXPECTED |
+cls.predictions.bias                       | UNEXPECTED |
+cls.predictions.transform.dense.bias       | UNEXPECTED |
+cls.predictions.transform.LayerNorm.bias   | UNEXPECTED |
+cls.predictions.decoder.weight             | UNEXPECTED |
+pooler.dense.bias                          | MISSING    |
+pooler.dense.weight                        | MISSING    |
+
+Notes:
+- UNEXPECTED:   can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:      those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+10:00:55 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert "HTTP/1.1 200 OK"
+10:00:56 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert/commits/main "HTTP/1.1 200 OK"
+10:00:56 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert/discussions?p=0 "HTTP/1.1 200 OK"
+  Extracting yarongef/DistilProtBert:   0%|               | 0/50 [00:00<?, ?it/s]10:00:56 | INFO     | HTTP Request: GET https://huggingface.co/api/models/yarongef/DistilProtBert/commits/refs%2Fpr%2F1 "HTTP/1.1 200 OK"
+  Extracting yarongef/DistilProtBert:  10%|▋      | 5/50 [00:00<00:03, 12.12it/s]10:00:57 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/refs%2Fpr%2F1/model.safetensors.index.json "HTTP/1.1 404 Not Found"  
+  Extracting yarongef/DistilProtBert:  34%|██    | 17/50 [00:00<00:01, 20.86it/s]10:00:57 | INFO     | HTTP Request: HEAD https://huggingface.co/yarongef/DistilProtBert/resolve/refs%2Fpr%2F1/model.safetensors "HTTP/1.1 302 Found"
+  Extracting yarongef/DistilProtBert: 100%|██████| 50/50 [00:02<00:00, 20.28it/s]
+10:01:00 | INFO     |     Saved partial CSV (~1048 rows) to: output/phase_4\yarongef_DistilProtBert_partial.csv
+10:01:20 | INFO     |   yarongef/DistilProtBert → F1: 0.7705, AUC: 0.9159
+10:01:20 | INFO     |     Saved individual ROC graph → output/phase_4\roc_yarongef_DistilProtBert.png
+10:01:20 | INFO     |   Generating combined ROC graphs for all evaluated models...
+10:01:20 | INFO     |     Saved combined 2×2 ROC grid → output/phase_4\roc_combined_grid.png
+10:01:20 | INFO     |     Saved macro-average ROC comparison → output/phase_4\roc_macro_comparison.png
+
+[4/5] Select Best Model and Generate Full Embeddings ONLY for the winner
+------------------------------------------------------------
+10:01:20 | INFO     |   Best Model Selected: Rostlab/prot_t5_xl_uniref50 (F1: 0.8498)
+10:01:20 | INFO     |   Generating full embeddings using Rostlab/prot_t5_xl_uniref50 for ALL 9,172 sequences...
+10:01:20 | INFO     |   Loading model: Rostlab/prot_t5_xl_uniref50
+10:01:21 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+10:01:21 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/config.json "HTTP/1.1 200 OK"
+10:01:21 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/tokenizer_config.json "HTTP/1.1 307 Temporary Redirect"    
+10:01:22 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/tokenizer_config.json "HTTP/1.1 200 OK"
+10:01:22 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/tree/main/additional_chat_templates?recursive=false&expand=false "HTTP/1.1 404 Not Found"
+10:01:22 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/tree/main?recursive=true&expand=false "HTTP/1.1 200 OK"       
+10:01:23 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/config.json "HTTP/1.1 307 Temporary Redirect"
+10:01:23 | INFO     | HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/Rostlab/prot_t5_xl_uniref50/973be27c52ee6474de9c945952a8008aeb2a1a73/config.json "HTTP/1.1 200 OK"
+10:01:23 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+10:01:23 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors.index.json "HTTP/1.1 404 Not Found"      
+10:01:24 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/pytorch_model.bin "HTTP/1.1 302 Found"
+10:01:24 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/main/model.safetensors "HTTP/1.1 404 Not Found"
+10:01:24 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50 "HTTP/1.1 200 OK"
+10:01:25 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/commits/main "HTTP/1.1 200 OK"
+10:01:25 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/discussions?p=0 "HTTP/1.1 200 OK"
+10:01:26 | INFO     | HTTP Request: GET https://huggingface.co/api/models/Rostlab/prot_t5_xl_uniref50/commits/refs%2Fpr%2F1 "HTTP/1.1 200 OK"
+10:01:26 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/refs%2Fpr%2F1/model.safetensors.index.json "HTTP/1.1 404 Not Found"
+10:01:26 | INFO     | HTTP Request: HEAD https://huggingface.co/Rostlab/prot_t5_xl_uniref50/resolve/refs%2Fpr%2F1/model.safetensors "HTTP/1.1 302 Found"
+Loading weights: 100%|██████████████████████| 196/196 [00:00<00:00, 38689.93it/s]
+[transformers] T5EncoderModel LOAD REPORT from: Rostlab/prot_t5_xl_uniref50       
+Key            | Status     |  |
+---------------+------------+--+-
+lm_head.weight | UNEXPECTED |  |
+
+Notes:
+- UNEXPECTED:   can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  Extracting Rostlab/prot_t5_xl_uniref50: 100%|█| 4586/4586 [23:50<00:00,  3.21it
+
+[5/5] Save Embeddings to .pkl and Generate Report
+------------------------------------------------------------
+10:25:30 | INFO     |   Pickling best model embeddings (this may take a moment)...
+10:26:19 | INFO     |   Embeddings saved to: embeddings\Rostlab_prot_t5_xl_uniref50.pkl
+10:26:19 | INFO     |   Report saved to: output/phase_4\embedding_phase_4_report.txt

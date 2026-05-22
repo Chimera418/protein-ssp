@@ -1,0 +1,36 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_7_feature_selection.py
+
+[1/4] Load PCA embeddings
+------------------------------------------------------------
+21:34:42 | INFO     |   Loading embeddings from embeddings/pca_embeddings.pkl ...
+21:34:52 | INFO     |   Loaded 9,172 proteins  |  739 PCA features per residue
+21:34:52 | INFO     |   Metadata lookup built for 9,172 proteins.
+
+[2/4] Train ExtraTreesClassifier & select features
+------------------------------------------------------------
+21:34:52 | INFO     |   Sampling 1000 proteins for ExtraTreesClassifier ...
+21:34:52 | INFO     |   Sample residue matrix: (248357, 739)  |  Classes: ['C' 'E' 'H']
+21:34:52 | INFO     |   Fitting ExtraTreesClassifier (n_estimators=100, n_jobs=-1) ...
+21:35:27 | INFO     |   Original PCA features  : 739
+21:35:27 | INFO     |   Features selected      : 109
+21:35:27 | INFO     |   Reduction              : 630 features dropped
+21:35:27 | INFO     |   Saving feature importance plot ...
+21:35:28 | INFO     |   Saved importance plot -> output/phase_7\feature_importance_plot.png
+21:35:32 | INFO     |   Saved feature selector -> models/feature_selector_mask.pkl
+
+[3/4] Apply feature mask to full dataset & save PKL
+------------------------------------------------------------
+21:35:32 | INFO     |   Applying mask (keeping 109 features) to all 9,172 proteins ...
+  Applying mask: 100%|██████████████████████████████████████| 9172/9172 [00:04<00:00, 1985.80it/s] 
+21:35:37 | INFO     |   Saving final PKL -> embeddings/final_features.pkl
+
+[4/4] Write residue-level CSV & generate report
+------------------------------------------------------------
+21:35:38 | INFO     |   Writing CSV -> data/final_selected_features.csv  (batches of 200 proteins) 
+21:35:38 | INFO     |   Writing 200 proteins to CSV (full dataset in PKL)...
+  Writing CSV: 100%|████████████████████████████████████████████| 200/200 [00:03<00:00, 61.70it/s] 
+21:35:41 | INFO     |   Proteins written to CSV : 200 / 200 (limit)
+21:35:41 | INFO     |   Residues written        : 46,519
+21:35:41 | INFO     |   Proteins skipped        : 0
+21:35:41 | INFO     |   CSV saved -> data/final_selected_features.csv
+21:35:41 | INFO     |   Report saved -> output/phase_7\feature_selection_phase_7_report.txt   

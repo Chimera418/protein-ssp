@@ -1,0 +1,28 @@
+[1/6] Load raw sequences from CSV
+------------------------------------------------------------
+00:56:02 | INFO     |   Loaded 393,733 sequences from data/protein_sequences_raw.csv
+
+[2/6] Filter exact duplicate sequences
+------------------------------------------------------------
+00:56:02 | INFO     |   Removed 297,817 exact duplicates. Remaining: 95,916
+
+[3/6] Filter sequences by length
+------------------------------------------------------------
+00:56:02 | INFO     |   Removed 6,816 sequences outside length [40, 10000]. Remaining: 89,100
+
+[4/6] Remove sequences containing invalid amino acids
+------------------------------------------------------------
+00:56:03 | INFO     |   Removed 1,002 sequences with invalid AA. Remaining: 88,098
+
+[5/6] Perform redundancy removal using PISCES (threshold = pc70)
+------------------------------------------------------------
+00:56:03 | INFO     |   Attempting to download PISCES tarball from: http://dunbrack.fccc.edu/Guoli/culledpdb_hh/pisces_lists_2026_05_14.tar.gz
+00:56:03 | INFO     |   Found local version: raw_data\pisces_lists_2026_05_14.tar.gz. Using local version instead.
+00:56:17 | INFO     |   Selected PISCES file: cullpdb_pc70.0_res0.0-2.0_len40-10000_R0.25_Xray_d2026_05_14_chains25012
+00:56:22 | INFO     |   Retained 9,172 sequences present in PISCES culled list.
+
+[6/6] Generate statistics, export CSV and report
+------------------------------------------------------------
+00:56:22 | INFO     |   Final curated sequence dataset saved to: data\protein_sequences_curated.csv
+00:56:22 | INFO     |   Total curated sequences: 9,172
+00:56:22 | INFO     |   Report saved to: output/phase_2\dataset_phase_2_report.txt

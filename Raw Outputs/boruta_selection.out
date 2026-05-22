@@ -1,0 +1,178 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python .\run_boruta_selection.py
+
+[1/3] Loading Data
+------------------------------------------------------------
+00:02:07 | INFO     | Loaded 9,172 proteins with 109 features from Phase 7.
+00:02:09 | INFO     | Loaded Phase 7 PCA indices mask with length 109
+
+[2/3] Preparing Sample for Boruta
+------------------------------------------------------------
+00:02:09 | INFO     | Sampling 1000 proteins to run Boruta feature selection...
+00:02:09 | INFO     | Sample matrix shape: (245410, 109) | Target classes: ['C' 'E' 'H']
+
+[3/3] Running Boruta Feature Selection
+------------------------------------------------------------
+00:02:09 | INFO     | Fitting Boruta (this may take a minute or two)...
+Iteration:      1 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      2 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      3 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      4 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      5 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      6 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      7 / 50
+Confirmed:      0
+Tentative:      109
+Rejected:       0
+Iteration:      8 / 50
+Confirmed:      109
+Tentative:      0
+Rejected:       0
+
+
+BorutaPy finished running.
+
+Iteration:      9 / 50
+Confirmed:      109
+Tentative:      0
+Rejected:       0
+
+============================================================
+BORUTA SELECTION RESULTS
+============================================================
+Total features input     : 109
+Confirmed features (green): 109
+Tentative features (yellow): 0
+Rejected features (red)    : 0
+------------------------------------------------------------
+00:03:12 | INFO     | Ranking of all features:
+00:03:12 | INFO     |   Feature   1 (PC1): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   2 (PC2): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   3 (PC3): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   4 (PC4): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   5 (PC5): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   6 (PC6): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   7 (PC7): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   8 (PC8): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature   9 (PC9): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  10 (PC10): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  11 (PC11): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  12 (PC12): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  13 (PC13): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  14 (PC14): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  15 (PC15): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  16 (PC16): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  17 (PC17): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  18 (PC18): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  19 (PC19): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  20 (PC20): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  21 (PC21): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  22 (PC22): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  23 (PC23): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  24 (PC24): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  25 (PC25): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  26 (PC26): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  27 (PC27): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  28 (PC28): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  29 (PC29): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  30 (PC30): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  31 (PC31): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  32 (PC32): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  33 (PC33): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  34 (PC34): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  35 (PC35): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  36 (PC36): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  37 (PC37): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  38 (PC38): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  39 (PC39): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  40 (PC40): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  41 (PC41): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  42 (PC42): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  43 (PC43): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  44 (PC44): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  45 (PC45): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  46 (PC46): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  47 (PC47): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  48 (PC48): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  49 (PC49): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  50 (PC50): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  51 (PC51): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  52 (PC52): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  53 (PC53): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  54 (PC55): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  55 (PC56): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  56 (PC57): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  57 (PC58): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  58 (PC59): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  59 (PC60): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  60 (PC61): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  61 (PC62): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  62 (PC63): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  63 (PC64): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  64 (PC66): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  65 (PC67): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  66 (PC68): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  67 (PC70): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  68 (PC71): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  69 (PC72): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  70 (PC73): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  71 (PC74): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  72 (PC75): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  73 (PC76): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  74 (PC77): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  75 (PC78): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  76 (PC79): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  77 (PC80): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  78 (PC81): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  79 (PC82): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  80 (PC85): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  81 (PC86): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  82 (PC87): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  83 (PC88): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  84 (PC89): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  85 (PC90): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  86 (PC91): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  87 (PC93): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  88 (PC94): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  89 (PC95): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  90 (PC96): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  91 (PC100): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  92 (PC102): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  93 (PC103): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  94 (PC104): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  95 (PC108): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  96 (PC109): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  97 (PC113): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  98 (PC119): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature  99 (PC122): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 100 (PC124): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 101 (PC128): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 102 (PC136): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 103 (PC151): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 104 (PC155): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 105 (PC156): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 106 (PC158): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 107 (PC192): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 108 (PC203): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     |   Feature 109 (PC227): Rank =  1 [CONFIRMED]
+00:03:12 | INFO     | Confirmed absolute features (109): ['PC1', 'PC2', 'PC3', 'PC4', 'PC5', 'PC6', 'PC7', 'PC8', 'PC9', 'PC10', 'PC11', 'PC12', 'PC13', 'PC14', 'PC15', 'PC16', 'PC17', 'PC18', 'PC19', 'PC20', 'PC21', 'PC22', 'PC23', 'PC24', 'PC25', 'PC26', 'PC27', 'PC28', 'PC29', 'PC30', 'PC31', 'PC32', 'PC33', 'PC34', 'PC35', 'PC36', 'PC37', 'PC38', 'PC39', 'PC40', 'PC41', 'PC42', 'PC43', 'PC44', 'PC45', 'PC46', 'PC47', 'PC48', 'PC49', 'PC50', 'PC51', 'PC52', 'PC53', 'PC55', 'PC56', 'PC57', 'PC58', 'PC59', 'PC60', 'PC61', 'PC62', 'PC63', 'PC64', 'PC66', 'PC67', 'PC68', 'PC70', 'PC71', 'PC72', 'PC73', 'PC74', 'PC75', 'PC76', 'PC77', 'PC78', 'PC79', 'PC80', 'PC81', 'PC82', 'PC85', 'PC86', 'PC87', 'PC88', 'PC89', 'PC90', 'PC91', 'PC93', 'PC94', 'PC95', 'PC96', 'PC100', 'PC102', 'PC103', 'PC104', 'PC108', 'PC109', 'PC113', 'PC119', 'PC122', 'PC124', 'PC128', 'PC136', 'PC151', 'PC155', 'PC156', 'PC158', 'PC192', 'PC203', 'PC227']
+00:03:12 | INFO     | Saved Boruta selector mask metadata -> models/boruta_selector_mask.pkl       
+00:03:12 | INFO     | Saved Boruta report -> output/boruta/boruta_selection_report.txt
+============================================================

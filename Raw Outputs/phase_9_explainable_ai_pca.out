@@ -1,0 +1,42 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_9_explainable_ai.py --input embeddings/pca_embeddings.pkl --model models/phase_8_best_model_pca_embeddings.pt
+23:24:22 | INFO     |   Device: cuda
+
+[1/6] Load model + sample proteins
+------------------------------------------------------------
+23:24:22 | INFO     |   Loading embeddings from embeddings/pca_embeddings.pkl ...
+23:24:26 | INFO     |   Proteins: 9,172  |  Feature dims: 739
+23:24:26 | INFO     |   Loading model from models/phase_8_best_model_pca_embeddings.pt ...
+23:24:26 | INFO     |   Model loaded  |  input_dim=739
+
+[2/6] Attention weight heatmaps
+------------------------------------------------------------
+23:24:26 | INFO     |   Processing 20 proteins for attention analysis ...
+23:24:30 | INFO     |   Saved attention heatmaps -> output/phase_9\attention_heatmaps_pca_embeddings.png
+23:24:30 | INFO     |   Saved per-class attention -> output/phase_9\attention_by_class_pca_embeddings.png
+
+[3/6] Gradient saliency maps
+------------------------------------------------------------
+23:24:30 | INFO     |   Computing gradient saliency for 20 proteins ...
+23:24:34 | INFO     |   Saved saliency maps -> output/phase_9\gradient_saliency_maps_pca_embeddings.png
+
+[4/6] Global feature importance (Integrated Gradients)
+------------------------------------------------------------
+23:24:34 | INFO     |   Running integrated gradients on 100 proteins ...
+  IG proteins: 100%|████████████████████████████████████████████| 100/100 [00:52<00:00,  1.89it/s] 
+23:25:27 | INFO     |   Saved IG feature importance -> output/phase_9\feature_importance_ig_pca_embeddings.png
+23:25:28 | INFO     |   Saved top-20 combined -> output/phase_9\top20_features_all_classes_pca_embeddings.png
+
+[5/6] SHAP feature importance (GradientExplainer)
+------------------------------------------------------------
+23:25:28 | INFO     |   Running SHAP on up to 50 proteins (max_len=80) ...
+DEBUG 0: shap_imp.shape=(3, 739), top_idx.shape=(30,), top_vals.shape=(30,)
+DEBUG 1: shap_imp.shape=(3, 739), top_idx.shape=(30,), top_vals.shape=(30,)
+DEBUG 2: shap_imp.shape=(3, 739), top_idx.shape=(30,), top_vals.shape=(30,)
+23:25:41 | INFO     |   Saved SHAP plot -> output/phase_9\shap_feature_importance_pca_embeddings.png
+
+[6/6] LIME residue importance (segment masking)
+------------------------------------------------------------
+23:25:41 | INFO     |   Running LIME on 10 proteins (200 perturbations each) ...
+  LIME proteins: 100%|████████████████████████████████████████████| 10/10 [00:25<00:00,  2.52s/it]
+23:26:08 | INFO     |   Saved LIME plot -> output/phase_9\lime_residue_importance_pca_embeddings.png
+23:26:08 | INFO     |   Report saved -> output/phase_9\explainability_phase_9_report_pca_embeddings.txt

@@ -1,0 +1,48 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_7_5_feature_refinement.py
+
+[1/4] Load Phase-7 features + selector mask
+------------------------------------------------------------
+21:35:57 | INFO     |   Loading embeddings/final_features.pkl ...
+21:35:58 | INFO     |   Loaded 9,172 proteins  |  109 features per residue
+21:36:00 | INFO     |   Phase-7 PCA-space indices loaded: 109 features
+21:36:00 | INFO     |   Metadata lookup built for 9,172 proteins.
+
+[2/4] Train ExtraTreesClassifier -> pick top 12 features
+------------------------------------------------------------
+21:36:00 | INFO     |   Sampling 2000 proteins for ExtraTreesClassifier ...
+21:36:00 | INFO     |   Sample residue matrix: (497913, 109)  |  Classes: ['C' 'E' 'H']
+21:36:00 | INFO     |   Fitting ExtraTreesClassifier (n_estimators=200, n_jobs=-1) ...
+21:36:51 | INFO     |   Phase-7 features (in PCA space) : 109
+21:36:51 | INFO     |   Phase-7.5 local top-12 indices : [0, 2, 3, 5, 7, 10, 11, 12, 14, 15, 18, 19]
+21:36:51 | INFO     |   Combined PCA-space indices       : [0, 2, 3, 5, 7, 10, 11, 12, 14, 15, 18, 19]
+21:36:51 | INFO     |   ✓ Final feature count            : 12  (< 15 ✓)
+21:36:51 | INFO     |   Saving visualisations ...
+21:36:52 | INFO     |   Saved plot -> output/phase_7_5\feature_refinement_plot.png
+21:36:52 | INFO     |   OK Saved new selector mask -> models/feature_selector_mask_v2.pkl
+21:36:52 | INFO     |     (selected_indices now contains 12 absolute PCA indices)
+
+[3/4] Apply mask to full dataset -> save PKL
+------------------------------------------------------------
+21:36:52 | INFO     |   Applying local mask (keeping 12 of 109 features) to all 9,172 proteins ... 
+  Applying mask: 100%|█████████████████████████████████████| 9172/9172 [00:00<00:00, 94543.10it/s] 
+21:36:52 | INFO     |   Saving final PKL → embeddings/final_features_v2.pkl
+21:36:53 | INFO     |   Verified output shape: 12 features ✓
+
+[4/4] Write residue-level CSV + report
+------------------------------------------------------------
+21:36:53 | INFO     |   Writing 200 proteins to CSV ...
+  Writing CSV: 100%|███████████████████████████████████████████| 200/200 [00:00<00:00, 517.12it/s] 
+21:36:53 | INFO     |   Proteins written : 200
+21:36:53 | INFO     |   Residues written : 46,519
+21:36:53 | INFO     |   Proteins skipped : 0
+21:36:53 | INFO     |   Report saved -> output/phase_7_5\feature_refinement_report.txt
+
+============================================================
+  OK  Phase 7.5 complete!
+     109 features  ->  12 features  (< 15 OK)
+     PKL  : embeddings/final_features_v2.pkl
+     Mask : models/feature_selector_mask_v2.pkl  (overwritten with 12 PCA indices)
+
+  Next: python phase_8_deep_learning_model.py \
+            --input embeddings/final_features_v2.pkl
+============================================================

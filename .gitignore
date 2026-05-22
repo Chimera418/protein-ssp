@@ -1,0 +1,42 @@
+# Python / System caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
+.antigravity/
+.gemini/
+.cursor/
+
+
+# Heavy datasets and raw downloads
+data_curate/
+raw_data/
+data/filtered_protein_embeddings.csv
+data/pca_protein_embeddings.csv
+data/filtered_features.csv
+# Python / System caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.vscode/
+.antigravity/
+.gemini/
+.cursor/
+
+
+# Heavy datasets and raw downloads
+data_curate/
+raw_data/
+data/filtered_protein_embeddings.csv
+data/pca_protein_embeddings.csv
+data/filtered_features.csv
+data/final_selected_features.csv
+data/final_selected_features_v2.csv
+data/protein_sequences_raw.csv
+embeddings/
+docs/
+misc/
+models/
+.env
+output/
+raw output/

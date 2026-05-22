@@ -1,0 +1,38 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python .\phase_6_dimensionality_reduction.py
+
+[1/4] Load filtered embeddings
+------------------------------------------------------------
+21:28:36 | INFO     |   Loading embeddings from embeddings/filtered_embeddings.pkl ...
+21:28:53 | INFO     |   Loaded 9,172 proteins  |  1017 features per residue
+21:28:54 | INFO     |   Metadata lookup built for 9,172 proteins.
+
+[2/4] Estimate n_components for target variance
+------------------------------------------------------------
+21:28:54 | INFO     |   Fitting standard PCA on 1000 proteins to estimate n_components ...
+21:28:55 | INFO     |   Sample residue matrix shape: (240270, 1017)
+21:29:10 | INFO     |   Target variance      : 95%
+21:29:10 | INFO     |   Components required  : 739  (out of 1017)
+21:29:10 | INFO     |   Cumulative variance  : 95.02%
+21:29:10 | INFO     |   Saving explained variance plot ...
+21:29:11 | INFO     |   Saved variance plot → output/phase_6\explained_variance_plot.png
+
+[3/4] Fit IncrementalPCA + transform all proteins
+------------------------------------------------------------
+21:29:12 | INFO     |   Fitting IncrementalPCA(n_components=739) in chunks of 200 proteins ...     
+  Fitting IPCA: 100%|█████████████████████████████████████████████| 46/46 [03:05<00:00,  4.03s/it] 
+21:32:17 | INFO     |   IncrementalPCA fitted  |  Total explained variance: 94.49%
+21:32:17 | INFO     |   Saving PCA model → models/pca_model.pkl
+21:32:17 | INFO     |   Transforming all proteins ...
+  Transforming: 100%|████████████████████████████████████████| 9172/9172 [01:12<00:00, 126.66it/s]
+21:33:32 | INFO     |   Saving PCA embeddings PKL → embeddings/pca_embeddings.pkl
+
+[4/4] Write residue-level CSV & generate report
+------------------------------------------------------------
+21:33:51 | INFO     |   Writing CSV → data/pca_protein_embeddings.csv  (batches of 200 proteins)   
+21:33:51 | INFO     |   Writing 200 proteins to CSV (full dataset in PKL)...
+  Writing CSV: 100%|████████████████████████████████████████████| 200/200 [00:33<00:00,  5.97it/s]
+21:34:24 | INFO     |   Proteins written to CSV : 200 / 200 (limit)
+21:34:24 | INFO     |   Residues written        : 46,519
+21:34:24 | INFO     |   Proteins skipped        : 0
+21:34:24 | INFO     |   CSV saved -> data/pca_protein_embeddings.csv
+21:34:24 | INFO     |   Report saved → output/phase_6\dimensionality_reduction_phase_6_report.txt 

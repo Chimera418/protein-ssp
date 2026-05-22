@@ -1,0 +1,62 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_8_deep_learning_model.py --input embeddings/Rostlab_prot_t5_xl_uniref50.pkl
+21:42:33 | INFO     |   Device: cuda
+
+[1/5] Load data & split
+------------------------------------------------------------
+21:42:33 | INFO     |   Loading embeddings/Rostlab_prot_t5_xl_uniref50.pkl ...
+21:42:40 | INFO     |   Proteins: 9,172  |  Feature dims: 1024
+21:42:40 | INFO     |   Train/Val/Test split: 7337 / 917 / 918
+21:43:13 | INFO     |     Skipped 10 proteins (key/length mismatch)
+21:43:18 | INFO     |     Skipped 1 proteins (key/length mismatch)
+21:43:25 | INFO     |     Skipped 3 proteins (key/length mismatch)
+21:43:27 | INFO     |   Dataset sizes: train=7,327  val=916  test=915
+21:43:27 | INFO     |   Class counts (H/E/C): [625846, 395433, 770801]
+21:43:27 | INFO     |   Class weights:        [0.2946000099182129, 0.46619999408721924, 0.23919999599456787]
+
+[2/5] Build model
+------------------------------------------------------------
+21:43:27 | INFO     |   Architecture : CNN → BiLSTM(2L) → MHA(8h) → FC
+21:43:27 | INFO     |   Input dim    : 1024  |  Hidden: 256
+21:43:27 | INFO     |   Trainable params: 5,977,603
+
+[3/5] Train
+------------------------------------------------------------
+21:44:40 | INFO     |   Epoch 01/50 | train_loss=0.0081  val_loss=0.0064  val_F1=0.8233  val_Q3=82.53%                 
+21:44:40 | INFO     |     ✓ New best model saved (val_F1=0.8233)
+21:45:29 | INFO     |   Epoch 02/50 | train_loss=0.0064  val_loss=0.0063  val_F1=0.8472  val_Q3=84.85%
+21:45:29 | INFO     |     ✓ New best model saved (val_F1=0.8472)
+21:46:17 | INFO     |   Epoch 03/50 | train_loss=0.0059  val_loss=0.0061  val_F1=0.8455  val_Q3=84.69%                 
+21:47:06 | INFO     |   Epoch 04/50 | train_loss=0.0056  val_loss=0.0061  val_F1=0.8390  val_Q3=84.08%
+21:47:54 | INFO     |   Epoch 05/50 | train_loss=0.0053  val_loss=0.0062  val_F1=0.8136  val_Q3=81.58%
+21:48:42 | INFO     |   Epoch 06/50 | train_loss=0.0050  val_loss=0.0071  val_F1=0.8268  val_Q3=82.91%
+21:49:29 | INFO     |   Epoch 07/50 | train_loss=0.0048  val_loss=0.0075  val_F1=0.8367  val_Q3=83.85%
+21:50:16 | INFO     |   Epoch 08/50 | train_loss=0.0046  val_loss=0.0074  val_F1=0.8129  val_Q3=81.60%
+21:51:03 | INFO     |   Epoch 09/50 | train_loss=0.0045  val_loss=0.0082  val_F1=0.8304  val_Q3=83.25%
+21:51:03 | INFO     |   Early stopping at epoch 9 (patience=7)
+
+[4/5] Evaluate on test set
+------------------------------------------------------------
+21:51:10 | INFO     |   Q3 Accuracy  : 85.03%
+21:51:10 | INFO     |   Macro F1     : 0.8494
+21:51:10 | INFO     |   Weighted F1  : 0.8488
+21:51:10 | INFO     |   ROC-AUC (OvR): 0.9685
+21:51:10 | INFO     | 
+              precision    recall  f1-score   support
+
+    Helix(H)       0.87      0.93      0.90     76343
+    Sheet(E)       0.74      0.94      0.83     48645
+     Coil(C)       0.91      0.74      0.81     95140
+
+    accuracy                           0.85    220128
+   macro avg       0.84      0.87      0.85    220128
+weighted avg       0.86      0.85      0.85    220128
+
+21:51:11 | INFO     |   Saved confusion matrix -> output/phase_8\confusion_matrix_Rostlab_prot_t5_xl_uniref50.png
+21:51:11 | INFO     |   Saved training history -> output/phase_8\training_history_Rostlab_prot_t5_xl_uniref50.png
+21:51:12 | INFO     |   Saved ROC curves -> output/phase_8\roc_curves_Rostlab_prot_t5_xl_uniref50.png
+
+[5/5] Save report
+------------------------------------------------------------
+21:51:12 | INFO     |   Report saved -> output/phase_8\phase_8_report_Rostlab_prot_t5_xl_uniref50.txt
+21:51:12 | INFO     | 
+  Final Results: Q3=85.03%  Macro-F1=0.8494  AUC=0.9685

@@ -1,0 +1,18 @@
+[1/3] Collect protein sequences and metadata from RCSB
+------------------------------------------------------------
+00:55:12 | INFO     |   Attempting to download RCSB ss.txt.gz from: https://ftp.wwpdb.org/pub/pdb/derived_data/ss.txt.gz
+00:55:12 | INFO     |   Found local version: raw_data\2026-05-17-ss.txt.gz. Using local version instead.
+00:55:12 | INFO     |   Attempting to download source.idx from: https://files.wwpdb.org/pub/pdb/derived_data/index/source.idx
+00:55:12 | INFO     |   Found local version: raw_data\2026-05-17-source.idx. Using local version instead.
+00:55:12 | INFO     |   Parsed organism data for 244,720 PDBs.
+
+[2/3] Parse protein sequences
+------------------------------------------------------------
+00:55:12 | INFO     |   Parsing: raw_data\2026-05-17-ss.txt.gz
+00:55:15 | INFO     |   Parsed 393,733 sequences.
+
+[3/3] Export raw sequence dataset to CSV and generate report
+------------------------------------------------------------
+00:55:17 | INFO     |   Raw sequence dataset saved to: data\protein_sequences_raw.csv
+00:55:17 | INFO     |   Total raw sequences: 393,733
+00:55:17 | INFO     |   Report saved to: output/phase_1\dataset_phase_1_report.txt

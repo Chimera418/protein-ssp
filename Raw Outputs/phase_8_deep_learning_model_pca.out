@@ -1,0 +1,80 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_8_deep_learning_model.py --input embeddings/pca_embeddings.pkl
+22:33:50 | INFO     |   Device: cuda
+
+[1/5] Load data & split
+------------------------------------------------------------
+22:33:50 | INFO     |   Loading embeddings/pca_embeddings.pkl ...
+22:34:00 | INFO     |   Proteins: 9,172  |  Feature dims: 739
+22:34:00 | INFO     |   Train/Val/Test split: 7337 / 917 / 918
+22:34:14 | INFO     |     Skipped 10 proteins (key/length mismatch)
+22:34:17 | INFO     |     Skipped 1 proteins (key/length mismatch)
+22:34:21 | INFO     |     Skipped 3 proteins (key/length mismatch)
+22:34:24 | INFO     |   Dataset sizes: train=7,327  val=916  test=915
+22:34:24 | INFO     |   Class counts (H/E/C): [625846, 395433, 770801]
+22:34:24 | INFO     |   Class weights:        [0.2946000099182129, 0.46619999408721924, 0.23919999599456787]
+
+[2/5] Build model
+------------------------------------------------------------
+22:34:24 | INFO     |   Architecture : CNN → BiLSTM(2L) → MHA(8h) → FC
+22:34:24 | INFO     |   Input dim    : 739  |  Hidden: 256
+22:34:24 | INFO     |   Trainable params: 5,466,883
+
+[3/5] Train
+------------------------------------------------------------
+22:35:17 | INFO     |   Epoch 01/50 | train_loss=0.0081  val_loss=0.0065  val_F1=0.8347  val_Q3=83.61%
+22:35:17 | INFO     |     ✓ New best model saved (val_F1=0.8347)
+22:36:02 | INFO     |   Epoch 02/50 | train_loss=0.0064  val_loss=0.0062  val_F1=0.8364  val_Q3=83.83%
+22:36:02 | INFO     |     ✓ New best model saved (val_F1=0.8364)
+22:36:47 | INFO     |   Epoch 03/50 | train_loss=0.0059  val_loss=0.0064  val_F1=0.8241  val_Q3=82.62%
+22:37:32 | INFO     |   Epoch 04/50 | train_loss=0.0056  val_loss=0.0062  val_F1=0.8327  val_Q3=83.45%
+22:38:17 | INFO     |   Epoch 05/50 | train_loss=0.0053  val_loss=0.0063  val_F1=0.8243  val_Q3=82.68%
+22:39:01 | INFO     |   Epoch 06/50 | train_loss=0.0051  val_loss=0.0064  val_F1=0.8287  val_Q3=83.09%
+22:39:45 | INFO     |   Epoch 07/50 | train_loss=0.0049  val_loss=0.0066  val_F1=0.8390  val_Q3=84.07%
+22:39:46 | INFO     |     ✓ New best model saved (val_F1=0.8390)
+22:40:30 | INFO     |   Epoch 08/50 | train_loss=0.0048  val_loss=0.0077  val_F1=0.8472  val_Q3=84.84%
+22:40:30 | INFO     |     ✓ New best model saved (val_F1=0.8472)
+22:41:15 | INFO     |   Epoch 09/50 | train_loss=0.0044  val_loss=0.0083  val_F1=0.8339  val_Q3=83.58%
+22:41:59 | INFO     |   Epoch 10/50 | train_loss=0.0043  val_loss=0.0084  val_F1=0.8360  val_Q3=83.71%
+22:42:44 | INFO     |   Epoch 11/50 | train_loss=0.0042  val_loss=0.0084  val_F1=0.8423  val_Q3=84.37%
+22:43:28 | INFO     |   Epoch 12/50 | train_loss=0.0040  val_loss=0.0088  val_F1=0.8441  val_Q3=84.52%
+22:44:14 | INFO     |   Epoch 13/50 | train_loss=0.0038  val_loss=0.0102  val_F1=0.8522  val_Q3=85.32%
+22:44:14 | INFO     |     ✓ New best model saved (val_F1=0.8522)
+22:44:58 | INFO     |   Epoch 14/50 | train_loss=0.0038  val_loss=0.0095  val_F1=0.8367  val_Q3=83.84%
+22:45:43 | INFO     |   Epoch 15/50 | train_loss=0.0037  val_loss=0.0099  val_F1=0.8479  val_Q3=84.92%
+22:46:27 | INFO     |   Epoch 16/50 | train_loss=0.0036  val_loss=0.0106  val_F1=0.8555  val_Q3=85.62%
+22:46:27 | INFO     |     ✓ New best model saved (val_F1=0.8555)
+22:47:11 | INFO     |   Epoch 17/50 | train_loss=0.0035  val_loss=0.0108  val_F1=0.8514  val_Q3=85.23%
+22:47:55 | INFO     |   Epoch 18/50 | train_loss=0.0034  val_loss=0.0116  val_F1=0.8495  val_Q3=85.08%
+22:48:39 | INFO     |   Epoch 19/50 | train_loss=0.0033  val_loss=0.0142  val_F1=0.8384  val_Q3=84.02%
+22:49:24 | INFO     |   Epoch 20/50 | train_loss=0.0033  val_loss=0.0144  val_F1=0.8389  val_Q3=84.06%
+22:50:09 | INFO     |   Epoch 21/50 | train_loss=0.0032  val_loss=0.0146  val_F1=0.8396  val_Q3=84.10%
+22:50:55 | INFO     |   Epoch 22/50 | train_loss=0.0031  val_loss=0.0168  val_F1=0.8491  val_Q3=85.01%
+22:51:41 | INFO     |   Epoch 23/50 | train_loss=0.0031  val_loss=0.0172  val_F1=0.8450  val_Q3=84.62%
+22:51:41 | INFO     |   Early stopping at epoch 23 (patience=7)
+
+[4/5] Evaluate on test set
+------------------------------------------------------------
+22:51:47 | INFO     |   Q3 Accuracy  : 85.67%
+22:51:47 | INFO     |   Macro F1     : 0.8563
+22:51:47 | INFO     |   Weighted F1  : 0.8564
+22:51:47 | INFO     |   ROC-AUC (OvR): 0.9692
+22:51:47 | INFO     | 
+              precision    recall  f1-score   support
+
+    Helix(H)       0.90      0.91      0.91     76343
+    Sheet(E)       0.75      0.94      0.84     48645
+     Coil(C)       0.89      0.77      0.83     95140
+
+    accuracy                           0.86    220128
+   macro avg       0.85      0.87      0.86    220128
+weighted avg       0.86      0.86      0.86    220128
+
+22:51:47 | INFO     |   Saved confusion matrix -> output/phase_8\confusion_matrix_pca_embeddings.png
+22:51:48 | INFO     |   Saved training history -> output/phase_8\training_history_pca_embeddings.png
+22:51:48 | INFO     |   Saved ROC curves -> output/phase_8\roc_curves_pca_embeddings.png
+
+[5/5] Save report
+------------------------------------------------------------
+22:51:48 | INFO     |   Report saved -> output/phase_8\phase_8_report_pca_embeddings.txt
+22:51:48 | INFO     | 
+  Final Results: Q3=85.67%  Macro-F1=0.8563  AUC=0.9692

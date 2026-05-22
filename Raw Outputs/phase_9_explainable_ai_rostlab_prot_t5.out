@@ -1,0 +1,42 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_9_explainable_ai.py --input embeddings/Rostlab_prot_t5_xl_uniref50.pkl --model models/phase_8_best_model_Rostlab_prot_t5_xl_uniref50.pt
+22:17:41 | INFO     |   Device: cuda
+
+[1/6] Load model + sample proteins
+------------------------------------------------------------
+22:17:41 | INFO     |   Loading embeddings from embeddings/Rostlab_prot_t5_xl_uniref50.pkl ...
+22:17:48 | INFO     |   Proteins: 9,172  |  Feature dims: 1024
+22:17:48 | INFO     |   Loading model from models/phase_8_best_model_Rostlab_prot_t5_xl_uniref50.pt ...
+22:17:49 | INFO     |   Model loaded  |  input_dim=1024
+
+[2/6] Attention weight heatmaps
+------------------------------------------------------------
+22:17:49 | INFO     |   Processing 20 proteins for attention analysis ...
+22:17:52 | INFO     |   Saved attention heatmaps -> output/phase_9\attention_heatmaps_Rostlab_prot_t5_xl_uniref50.png
+22:17:53 | INFO     |   Saved per-class attention -> output/phase_9\attention_by_class_Rostlab_prot_t5_xl_uniref50.png
+
+[3/6] Gradient saliency maps
+------------------------------------------------------------
+22:17:53 | INFO     |   Computing gradient saliency for 20 proteins ...
+22:17:57 | INFO     |   Saved saliency maps -> output/phase_9\gradient_saliency_maps_Rostlab_prot_t5_xl_uniref50.png
+
+[4/6] Global feature importance (Integrated Gradients)
+------------------------------------------------------------
+22:17:57 | INFO     |   Running integrated gradients on 100 proteins ...
+  IG proteins: 100%|████████████████████████████████████████████| 100/100 [00:53<00:00,  1.87it/s]
+22:18:51 | INFO     |   Saved IG feature importance -> output/phase_9\feature_importance_ig_Rostlab_prot_t5_xl_uniref50.png
+22:18:52 | INFO     |   Saved top-20 combined -> output/phase_9\top20_features_all_classes_Rostlab_prot_t5_xl_uniref50.png
+
+[5/6] SHAP feature importance (GradientExplainer)
+------------------------------------------------------------
+22:18:52 | INFO     |   Running SHAP on up to 50 proteins (max_len=80) ...
+DEBUG 0: shap_imp.shape=(3, 1024), top_idx.shape=(30,), top_vals.shape=(30,)
+DEBUG 1: shap_imp.shape=(3, 1024), top_idx.shape=(30,), top_vals.shape=(30,)
+DEBUG 2: shap_imp.shape=(3, 1024), top_idx.shape=(30,), top_vals.shape=(30,)
+22:19:02 | INFO     |   Saved SHAP plot -> output/phase_9\shap_feature_importance_Rostlab_prot_t5_xl_uniref50.png
+
+[6/6] LIME residue importance (segment masking)
+------------------------------------------------------------
+22:19:02 | INFO     |   Running LIME on 10 proteins (200 perturbations each) ...
+  LIME proteins: 100%|████████████████████████████████████████████| 10/10 [00:16<00:00,  1.70s/it]
+22:19:20 | INFO     |   Saved LIME plot -> output/phase_9\lime_residue_importance_Rostlab_prot_t5_xl_uniref50.png
+22:19:20 | INFO     |   Report saved -> output/phase_9\explainability_phase_9_report_Rostlab_prot_t5_xl_uniref50.txt

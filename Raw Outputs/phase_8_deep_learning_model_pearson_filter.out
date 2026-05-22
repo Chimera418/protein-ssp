@@ -1,0 +1,65 @@
+python phase_8_deep_learning_model.py --input embeddings/filtered_embeddings.pkl
+ning_model.py --input embeddings/filtered_embeddings.pkl                                           22:20:34 | INFO     |   Device: cuda
+
+[1/5] Load data & split
+------------------------------------------------------------
+22:20:34 | INFO     |   Loading embeddings/filtered_embeddings.pkl ...
+22:20:41 | INFO     |   Proteins: 9,172  |  Feature dims: 1017
+22:20:41 | INFO     |   Train/Val/Test split: 7337 / 917 / 918
+22:21:13 | INFO     |     Skipped 10 proteins (key/length mismatch)
+22:21:19 | INFO     |     Skipped 1 proteins (key/length mismatch)
+22:21:24 | INFO     |     Skipped 3 proteins (key/length mismatch)
+22:21:26 | INFO     |   Dataset sizes: train=7,327  val=916  test=915
+22:21:27 | INFO     |   Class counts (H/E/C): [625846, 395433, 770801]
+22:21:27 | INFO     |   Class weights:        [0.2946000099182129, 0.46619999408721924, 0.239199995
+99456787]                                                                                          
+[2/5] Build model
+------------------------------------------------------------
+22:21:27 | INFO     |   Architecture : CNN → BiLSTM(2L) → MHA(8h) → FC
+22:21:27 | INFO     |   Input dim    : 1017  |  Hidden: 256
+22:21:27 | INFO     |   Trainable params: 5,965,059
+
+[3/5] Train
+------------------------------------------------------------
+22:22:37 | INFO     |   Epoch 01/50 | train_loss=0.0082  val_loss=0.0064  val_F1=0.8244  val_Q3=82.
+65%                                                                                                22:22:37 | INFO     |     ✓ New best model saved (val_F1=0.8244)
+22:23:31 | INFO     |   Epoch 02/50 | train_loss=0.0063  val_loss=0.0064  val_F1=0.8483  val_Q3=84.
+96%                                                                                                22:23:31 | INFO     |     ✓ New best model saved (val_F1=0.8483)
+22:24:23 | INFO     |   Epoch 03/50 | train_loss=0.0060  val_loss=0.0062  val_F1=0.8382  val_Q3=83.
+99%                                                                                                22:25:16 | INFO     |   Epoch 04/50 | train_loss=0.0056  val_loss=0.0064  val_F1=0.8499  val_Q3=85.
+10%                                                                                                22:25:16 | INFO     |     ✓ New best model saved (val_F1=0.8499)
+22:26:10 | INFO     |   Epoch 05/50 | train_loss=0.0053  val_loss=0.0063  val_F1=0.8361  val_Q3=83.
+78%                                                                                                22:27:02 | INFO     |   Epoch 06/50 | train_loss=0.0050  val_loss=0.0069  val_F1=0.8394  val_Q3=84.
+09%                                                                                                22:27:54 | INFO     |   Epoch 07/50 | train_loss=0.0047  val_loss=0.0072  val_F1=0.8495  val_Q3=85.
+07%                                                                                                22:28:45 | INFO     |   Epoch 08/50 | train_loss=0.0046  val_loss=0.0075  val_F1=0.8354  val_Q3=83.
+69%                                                                                                22:29:37 | INFO     |   Epoch 09/50 | train_loss=0.0048  val_loss=0.0075  val_F1=0.8318  val_Q3=83.
+31%                                                                                                22:30:28 | INFO     |   Epoch 10/50 | train_loss=0.0044  val_loss=0.0082  val_F1=0.8268  val_Q3=82.
+86%                                                                                                22:31:19 | INFO     |   Epoch 11/50 | train_loss=0.0042  val_loss=0.0092  val_F1=0.8434  val_Q3=84.
+46%                                                                                                22:31:19 | INFO     |   Early stopping at epoch 11 (patience=7)
+
+[4/5] Evaluate on test set
+------------------------------------------------------------
+22:31:27 | INFO     |   Q3 Accuracy  : 85.41%
+22:31:27 | INFO     |   Macro F1     : 0.8530
+22:31:27 | INFO     |   Weighted F1  : 0.8536
+22:31:27 | INFO     |   ROC-AUC (OvR): 0.9683
+22:31:27 | INFO     | 
+              precision    recall  f1-score   support
+
+    Helix(H)       0.89      0.92      0.91     76343
+    Sheet(E)       0.74      0.94      0.83     48645
+     Coil(C)       0.90      0.76      0.82     95140
+
+    accuracy                           0.85    220128
+   macro avg       0.85      0.87      0.85    220128
+weighted avg       0.86      0.85      0.85    220128
+
+22:31:28 | INFO     |   Saved confusion matrix -> output/phase_8\confusion_matrix_filtered_embeddin
+gs.png                                                                                             22:31:29 | INFO     |   Saved training history -> output/phase_8\training_history_filtered_embeddin
+gs.png                                                                                             22:31:29 | INFO     |   Saved ROC curves -> output/phase_8\roc_curves_filtered_embeddings.png
+
+[5/5] Save report
+------------------------------------------------------------
+22:31:29 | INFO     |   Report saved -> output/phase_8\phase_8_report_filtered_embeddings.txt
+22:31:29 | INFO     | 
+  Final Results: Q3=85.41%  Macro-F1=0.8530  AUC=0.9683

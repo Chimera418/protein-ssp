@@ -1,0 +1,38 @@
+PS C:\Users\anees\Desktop\SEM-4\IBS\endsem\Secondary_Structure_Prediction> python phase_5_feature_filtering.py 
+
+[1/4] Load embeddings
+------------------------------------------------------------
+21:24:26 | INFO     |   Loading embeddings from embeddings/Rostlab_prot_t5_xl_uniref50.pkl ...
+21:24:33 | INFO     |   Loaded 9,172 protein embeddings.
+21:24:33 | INFO     |   Metadata lookup built for 9,172 proteins.
+
+[2/4] Compute Pearson Correlation Matrix on sampled residues
+------------------------------------------------------------
+21:24:33 | INFO     |   Sampling 500 proteins (~100,000 residues) for correlation.
+21:24:34 | INFO     |   Sampled residue matrix shape: (126548, 1024)
+21:24:34 | INFO     |   Computing Pearson correlation matrix via np.corrcoef (fast vectorized)...
+21:24:36 | INFO     |   Correlation threshold  : |r| > 0.85
+21:24:36 | INFO     |   Original features      : 1024
+21:24:36 | INFO     |   Features dropped       : 7
+21:24:36 | INFO     |   Features retained      : 1017
+21:24:36 | INFO     |   Saving correlation heatmap...
+21:24:37 | INFO     |   Saved heatmap → output/phase_5\pearson_correlation_heatmap.png
+21:24:37 | INFO     |   Saved feature retention bar chart → output/phase_5\feature_retention_bar.png
+
+[3/4] Apply filtering to full dataset & write PKL
+------------------------------------------------------------
+21:24:37 | INFO     |   Applying feature mask (keeping 1017 dims) to all 9,172 proteins...
+  Filtering features: 100%|██████████████████████████████████| 9172/9172 [01:09<00:00, 131.72it/s]
+21:25:47 | INFO     |   Saving filtered PKL → embeddings/filtered_embeddings.pkl
+21:26:42 | INFO     |   Saved inference mask → models/keep_indices.pkl
+
+[4/4] Write residue-level CSV & generate report
+------------------------------------------------------------
+21:26:45 | INFO     |   Writing residue-level CSV → data/filtered_protein_embeddings.csv
+21:26:45 | INFO     |   Writing 200 proteins to CSV (full dataset in PKL)...
+  Writing CSV: 100%|████████████████████████████████████████████| 200/200 [00:42<00:00,  4.68it/s] 
+21:27:28 | INFO     |   Proteins written to CSV : 200 / 200 (limit)
+21:27:28 | INFO     |   Residues written        : 46,519
+21:27:28 | INFO     |   Proteins skipped        : 0
+21:27:28 | INFO     |   CSV saved -> data/filtered_protein_embeddings.csv
+21:27:28 | INFO     |   Report saved → output/phase_5\feature_filtering_phase_5_report.txt
