@@ -175,7 +175,12 @@ def ensure_model_exists(local_path):
     if not os.path.exists(local_path):
         try:
             from huggingface_hub import hf_hub_download
-            hf_hub_download(repo_id="Chimera418/protein-ssp-artifacts", filename=hf_path, local_dir=".")
+            hf_hub_download(
+                repo_id="Chimera418/protein-ssp-artifacts",
+                filename=hf_path,
+                local_dir=".",
+                local_dir_use_symlinks=False,  # write real files, not symlinks
+            )
         except Exception as e:
             st.warning(f"Failed to download {hf_path} from Hugging Face: {e}")
     return local_path
