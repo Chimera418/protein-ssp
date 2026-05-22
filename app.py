@@ -171,18 +171,26 @@ INFRA = {
 }
 
 def ensure_model_exists(local_path):
+    """Download artifact from HF Hub if not present locally.
+    Uses cache-then-copy strategy to guarantee a real file (never a symlink).
+    """
     hf_path = local_path.replace("\\", "/")
     if not os.path.exists(local_path):
         try:
+            import shutil
             from huggingface_hub import hf_hub_download
-            hf_hub_download(
+            # hf_hub_download always returns a real path in the HF cache
+            cached = hf_hub_download(
                 repo_id="Chimera418/protein-ssp-artifacts",
                 filename=hf_path,
-                local_dir=".",
-                local_dir_use_symlinks=False,  # write real files, not symlinks
             )
+            os.makedirs(os.path.dirname(local_path) or ".", exist_ok=True)
+            shutil.copy2(cached, local_path)  # copy real bytes, never a symlink
         except Exception as e:
-            st.warning(f"Failed to download {hf_path} from Hugging Face: {e}")
+            st.error(
+                f"**Download failed** for `{hf_path}`\n\n"
+                f"`{type(e).__name__}: {e}`"
+            )
     return local_path
 
 @st.cache_resource(show_spinner="Loading ProtT5 encoder (first time only — ~2 min)…")
@@ -205,8 +213,12 @@ def load_dl_model(path, input_dim):
 @st.cache_resource(show_spinner="Loading PCA transform…")
 def load_pca():
     ensure_model_exists('models/pca_model.pkl')
-    with open('models/pca_model.pkl', 'rb') as f:
-        return pickle.load(f)
+    try:
+        with open('models/pca_model.pkl', 'rb') as f:
+            return pickle.load(f)
+    except Exception as e:
+        st.error(f"**Failed to load PCA model** — `{type(e).__name__}: {e}`")
+        st.stop()
 
 @st.cache_resource(show_spinner="Loading keep indices…")
 def load_keep_indices():
@@ -220,14 +232,22 @@ def load_keep_indices():
 @st.cache_resource(show_spinner="Loading feature selector V1…")
 def load_selector_v1():
     ensure_model_exists('models/feature_selector_mask.pkl')
-    with open('models/feature_selector_mask.pkl', 'rb') as f:
-        return pickle.load(f)['selected_indices']
+    try:
+        with open('models/feature_selector_mask.pkl', 'rb') as f:
+            return pickle.load(f)['selected_indices']
+    except Exception as e:
+        st.error(f"**Failed to load selector V1** — `{type(e).__name__}: {e}`")
+        st.stop()
 
 @st.cache_resource(show_spinner="Loading feature selector V2…")
 def load_selector_v2():
     ensure_model_exists('models/feature_selector_mask_v2.pkl')
-    with open('models/feature_selector_mask_v2.pkl', 'rb') as f:
-        return pickle.load(f)['selected_indices']
+    try:
+        with open('models/feature_selector_mask_v2.pkl', 'rb') as f:
+            return pickle.load(f)['selected_indices']
+    except Exception as e:
+        st.error(f"**Failed to load selector V2** — `{type(e).__name__}: {e}`")
+        st.stop()
 
 # ── Inference helpers ─────────────────────────────────────────────
 IDX_SS   = {0: 'H', 1: 'E', 2: 'C'}
