@@ -33,6 +33,27 @@ Because the pre-trained ProtT5 models and generated embeddings are extremely lar
 - **Application Code:** Hosted on the [Hugging Face Space](https://huggingface.co/spaces/Chimera418/protein-ssp)
 - **Model Weights & Embeddings:** Hosted securely in a dedicated Hugging Face Model Hub at [Chimera418/protein-ssp-artifacts](https://huggingface.co/Chimera418/protein-ssp-artifacts). The app downloads these heavy files on-the-fly at runtime.
 
+### Artifact Uploads
+To upload new heavy artifacts (like data, raw data, or embeddings) to the Hugging Face Model Hub, use the Python helper scripts located in the `misc/` directory.
+
+> [!WARNING]
+> Do **not** use PowerShell dot-sourcing (e.g. `.\upload_data.py` or `. upload_data.py`). PowerShell will incorrectly try to parse the Python syntax as PowerShell code, resulting in a `Parse error: Expected an expression`. Always execute the scripts with the explicit `python` command.
+
+**Commands:**
+Open your terminal and run:
+```bash
+cd misc
+
+# Upload Curated Data (~1.1 GB)
+python upload_data.py
+
+# Upload Raw Data (~2.2 GB)
+python upload_raw_data.py
+
+# Upload Pre-computed Embeddings (~26.7 GB)
+python upload_embeddings.py
+```
+
 ## 💻 Local Installation
 
 1. **Clone the repository:**
