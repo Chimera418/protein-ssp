@@ -40,3 +40,8 @@ models/
 .env
 output/
 raw output/
+Raw Outputs/
+
+# Helper upload scripts with security tokens
+upload_*.py
+
