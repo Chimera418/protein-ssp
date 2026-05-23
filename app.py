@@ -574,10 +574,10 @@ if predict_btn:
     col_conf, col_pie = st.columns([3, 1])
     with col_conf:
         st.markdown("### Per-Residue Confidence")
-        st.image(confidence_figure(probs, raw), use_container_width=True)
+        st.image(confidence_figure(probs, raw), use_column_width=True)
     with col_pie:
         st.markdown("### Composition")
-        st.image(composition_pie(preds), use_container_width=True)
+        st.image(composition_pie(preds), use_column_width=True)
 
     with st.expander("📄 Raw Prediction Strings"):
         ss_str = "".join(IDX_SS[p] for p in preds)
