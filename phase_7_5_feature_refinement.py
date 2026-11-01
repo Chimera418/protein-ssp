@@ -260,10 +260,17 @@ def main():
         if not batch_embs:
             return fw
         emb_stack = np.vstack(batch_embs)
-        meta_arr  = np.column_stack([batch_pdb, batch_ridx, batch_aa, batch_labels])
-        full      = np.hstack([meta_arr, emb_stack.astype(str)])
-        pd.DataFrame(full, columns=header_cols).to_csv(
-            args.output_csv, mode='w' if fw else 'a', header=fw, index=False)
+        df_meta = pd.DataFrame({
+            'PDB_ID': batch_pdb,
+            'Residue_Index': batch_ridx,
+            'Amino_Acid': batch_aa,
+            'Label': batch_labels
+        })
+        df_emb = pd.DataFrame(emb_stack, columns=feat_cols)
+        df = pd.concat([df_meta, df_emb], axis=1)
+        df.to_csv(
+            args.output_csv, mode='w' if fw else 'a', header=fw, index=False, float_format='%.4f')
+        del emb_stack, df_meta, df_emb, df
         return False
 
     for pdb_id, emb in tqdm(items_csv, desc="  Writing CSV"):

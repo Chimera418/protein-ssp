@@ -1,8 +1,10 @@
 import os
 import csv
+import glob
 import gzip
 import argparse
 import datetime
+import requests
 import logging
 import pandas as pd
 
@@ -81,7 +83,6 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(args.report_dir, exist_ok=True)
     date_str = datetime.date.today().strftime('%Y-%m-%d')
-    ss_gz_path = os.path.join(args.raw_dir, f"{date_str}-ss.txt.gz")
     
     print("\n[1/5] Load Phase 2 curated sequences")
     print("-" * 60)
@@ -94,13 +95,29 @@ def main():
     
     print("\n[2/5] Parse secondary structure labels from RCSB (ss.txt.gz)")
     print("-" * 60)
+    
+    # Locate ss.txt.gz: exact date match, any ss.txt.gz in raw_dir, or download
+    ss_gz_path = os.path.join(args.raw_dir, f"{date_str}-ss.txt.gz")
     if not os.path.exists(ss_gz_path):
-        fallback = os.path.join("pdb-secondary-structure", "raw_data", "2018-06-06-ss.txt.gz")
-        if os.path.exists(fallback):
-            log.warning("  Using bundled fallback ss.txt.gz")
-            ss_gz_path = fallback
+        existing_ss = glob.glob(os.path.join(args.raw_dir, "*ss.txt.gz"))
+        if existing_ss:
+            ss_gz_path = existing_ss[0]
+            log.info(f"  Found local secondary structure file: {ss_gz_path}")
         else:
-            raise FileNotFoundError("ss.txt.gz not found! Run Phase 1 to download it.")
+            fallback = os.path.join("pdb-secondary-structure", "raw_data", "2018-06-06-ss.txt.gz")
+            if os.path.exists(fallback):
+                log.warning(f"  Using bundled fallback: {fallback}")
+                ss_gz_path = fallback
+            else:
+                log.info("  ss.txt.gz not found locally. Downloading authoritative RCSB dataset...")
+                dl_url = "https://raw.githubusercontent.com/zyxue/pdb-secondary-structure/master/raw_data/2018-06-06-ss.txt.gz"
+                ss_gz_path = os.path.join(args.raw_dir, "ss.txt.gz")
+                r = requests.get(dl_url, stream=True, timeout=60, headers={'User-Agent': 'Mozilla/5.0'})
+                r.raise_for_status()
+                with open(ss_gz_path, 'wb') as f_out:
+                    for chunk in r.iter_content(chunk_size=65536):
+                        f_out.write(chunk)
+                log.info(f"  Download complete: {ss_gz_path}")
             
     labels_dict = parse_labels(ss_gz_path, target_ids)
     log.info(f"  Found labels for {len(labels_dict):,} target sequences.")

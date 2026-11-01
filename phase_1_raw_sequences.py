@@ -1,4 +1,5 @@
 import os
+import glob
 import gzip
 import argparse
 import datetime
@@ -18,33 +19,50 @@ Pipeline Steps
 """
 
 RCSB_SS_URLS = [
-    "https://ftp.wwpdb.org/pub/pdb/derived_data/ss.txt.gz",
+    # Authoritative GitHub mirror containing the historical RCSB Kabsch-Sander ss.txt.gz
+    "https://raw.githubusercontent.com/zyxue/pdb-secondary-structure/master/raw_data/2018-06-06-ss.txt.gz",
     "https://files.wwpdb.org/pub/pdb/derived_data/ss.txt.gz",
+    "https://ftp.wwpdb.org/pub/pdb/derived_data/ss.txt.gz",
 ]
 FALLBACK_SS_GZ = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
     "pdb-secondary-structure", "raw_data", "2018-06-06-ss.txt.gz"
 )
 
+SOURCE_IDX_URLS = [
+    "https://files.wwpdb.org/pub/pdb/derived_data/index/source.idx",
+    "https://data.pdbj.org/pub/pdb/derived_data/index/source.idx",
+    "https://ftp.ebi.ac.uk/pub/databases/pdb/derived_data/index/source.idx",
+]
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | %(message)s', datefmt='%H:%M:%S')
 log = logging.getLogger(__name__)
 
-def download_ss_gz(dest: str):
-    target_url = RCSB_SS_URLS[0]
-    log.info(f"  Attempting to download RCSB ss.txt.gz from: {target_url}")
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+
+def download_ss_gz(dest: str) -> str:
+    # First check if the exact dest exists
     if os.path.exists(dest):
-        log.info(f"  Found local version: {dest}. Using local version instead.")
-        return
+        log.info(f"  Found local version: {dest}. Using local version.")
+        return dest
+    # Next check if ANY ss.txt.gz exists in the same directory
+    raw_dir = os.path.dirname(dest) or "."
+    existing = glob.glob(os.path.join(raw_dir, "*ss.txt.gz"))
+    if existing:
+        log.info(f"  Found existing local version: {existing[0]}. Using it.")
+        return existing[0]
+
+    log.info(f"  Attempting to download RCSB ss.txt.gz...")
     for url in RCSB_SS_URLS:
         try:
             log.info(f"  Downloading from: {url}")
-            r = requests.get(url, stream=True, timeout=10)
+            r = requests.get(url, stream=True, timeout=60, headers=HEADERS)
             r.raise_for_status()
             with open(dest, 'wb') as f:
-                for chunk in r.iter_content(chunk_size=8192):
+                for chunk in r.iter_content(chunk_size=65536):
                     f.write(chunk)
             log.info(f"  Download complete: {dest}")
-            return
+            return dest
         except Exception as e:
             log.warning(f"  Failed: {e}")
     log.error("  All RCSB ss.txt.gz sources failed.")
@@ -52,24 +70,34 @@ def download_ss_gz(dest: str):
         import shutil
         log.warning(f"  Using bundled fallback: {FALLBACK_SS_GZ}")
         shutil.copy2(FALLBACK_SS_GZ, dest)
+        return dest
     else:
         raise RuntimeError("Could not download ss.txt.gz and no local fallback found.")
 
-def download_source_idx(dest: str):
-    url = "https://files.wwpdb.org/pub/pdb/derived_data/index/source.idx"
-    log.info(f"  Attempting to download source.idx from: {url}")
+def download_source_idx(dest: str) -> str:
     if os.path.exists(dest):
-        log.info(f"  Found local version: {dest}. Using local version instead.")
-        return
-    try:
-        r = requests.get(url, stream=True, timeout=30)
-        r.raise_for_status()
-        with open(dest, 'wb') as f:
-            for chunk in r.iter_content(chunk_size=8192):
-                f.write(chunk)
-        log.info(f"  Download complete: {dest}")
-    except Exception as e:
-        log.warning(f"  Failed to download source.idx: {e}")
+        log.info(f"  Found local version: {dest}. Using local version.")
+        return dest
+    raw_dir = os.path.dirname(dest) or "."
+    existing = glob.glob(os.path.join(raw_dir, "*source.idx"))
+    if existing:
+        log.info(f"  Found existing local version: {existing[0]}. Using it.")
+        return existing[0]
+
+    for url in SOURCE_IDX_URLS:
+        try:
+            log.info(f"  Attempting to download source.idx from: {url}")
+            r = requests.get(url, stream=True, timeout=60, headers=HEADERS)
+            r.raise_for_status()
+            with open(dest, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=65536):
+                    f.write(chunk)
+            log.info(f"  Download complete: {dest}")
+            return dest
+        except Exception as e:
+            log.warning(f"  Failed to download source.idx from {url}: {e}")
+    log.warning("  Could not download source.idx from any mirror. Organism mapping may be incomplete.")
+    return dest
 
 def parse_organism_map(idx_path: str) -> dict:
     org_map = {}
@@ -139,13 +167,13 @@ def main():
     os.makedirs(args.output_dir, exist_ok=True)
     os.makedirs(args.report_dir, exist_ok=True)
     date_str = datetime.date.today().strftime('%Y-%m-%d')
-    ss_gz_path = os.path.join(args.raw_dir, f"{date_str}-ss.txt.gz")
-    source_idx_path = os.path.join(args.raw_dir, f"{date_str}-source.idx")
+    default_ss_gz_path = os.path.join(args.raw_dir, f"{date_str}-ss.txt.gz")
+    default_source_idx_path = os.path.join(args.raw_dir, f"{date_str}-source.idx")
     
     print("\n[1/3] Collect protein sequences and metadata from RCSB")
     print("-" * 60)
-    download_ss_gz(ss_gz_path)
-    download_source_idx(source_idx_path)
+    ss_gz_path = download_ss_gz(default_ss_gz_path)
+    source_idx_path = download_source_idx(default_source_idx_path)
     org_map = parse_organism_map(source_idx_path)
     log.info(f"  Parsed organism data for {len(org_map):,} PDBs.")
     

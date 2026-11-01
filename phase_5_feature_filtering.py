@@ -184,7 +184,7 @@ def main():
     print("-" * 60)
     log.info(f"  Writing residue-level CSV → {args.output_csv}")
 
-    BATCH_SIZE = 200   # proteins per write — balances RAM vs I/O calls
+    BATCH_SIZE = 50   # proteins per write — balances RAM vs I/O calls
     feat_cols = [f'ProtT5_dim_{i}' for i in keep_indices]
     header_cols = ['PDB_ID', 'Residue_Index', 'Amino_Acid', 'Label'] + feat_cols
 
@@ -208,12 +208,19 @@ def main():
         if not batch_embs:
             return first_write
         emb_stack = np.vstack(batch_embs)
-        meta_arr  = np.column_stack([batch_pdb, batch_ridx, batch_aa, batch_labels])
-        full = np.hstack([meta_arr, emb_stack.astype(str)])
-        df = pd.DataFrame(full, columns=header_cols)
+        df_meta = pd.DataFrame({
+            'PDB_ID': batch_pdb,
+            'Residue_Index': batch_ridx,
+            'Amino_Acid': batch_aa,
+            'Label': batch_labels
+        })
+        df_emb = pd.DataFrame(emb_stack, columns=feat_cols)
+        df = pd.concat([df_meta, df_emb], axis=1)
         df.to_csv(args.output_csv,
                   mode='w' if first_write else 'a',
-                  header=first_write, index=False)
+                  header=first_write, index=False,
+                  float_format='%.4f')
+        del emb_stack, df_meta, df_emb, df
         return False
 
     for pdb_id, emb in tqdm(items_csv, desc="  Writing CSV"):

@@ -81,6 +81,7 @@ def main():
     parser.add_argument('--mode', type=str, choices=['pipeline', 'direct'], default='pipeline',
                         help="pipeline = ProtT5 -> PCA(739) -> DL | direct = ProtT5(1024) -> DL")
     parser.add_argument('--pca-model', type=str, default='models/pca_model.pkl')
+    parser.add_argument('--keep-indices', type=str, default='models/keep_indices.pkl')
     parser.add_argument('--dl-pipeline-model', type=str, default='models/phase_8_best_model_pca_embeddings.pt')
     parser.add_argument('--dl-direct-model', type=str, default='models/phase_8_best_model_Rostlab_prot_t5_xl_uniref50.pt')
     args = parser.parse_args()
@@ -95,14 +96,19 @@ def main():
     emb_1024 = get_prott5_embeddings(args.sequence, tokenizer, encoder, device)
     
     if args.mode == 'pipeline':
-        print(f"[3/3] Running Pipeline Mode (ProtT5 -> PCA -> DL)...")
+        print(f"[3/3] Running Pipeline Mode (ProtT5 -> Pearson Filter -> PCA -> DL)...")
         if not os.path.exists(args.pca_model):
             raise FileNotFoundError(f"PCA model not found at {args.pca_model}")
         with open(args.pca_model, 'rb') as f:
             pca = pickle.load(f)
         
-        # PCA expects 2D array (L, 1024), transforms to (L, 739)
-        features = pca.transform(emb_1024)
+        feat = emb_1024
+        if os.path.exists(args.keep_indices):
+            with open(args.keep_indices, 'rb') as f:
+                ki = pickle.load(f)
+            feat = feat[:, ki]
+
+        features = pca.transform(feat)
         dl_model_path = args.dl_pipeline_model
         input_dim = 739
     else:

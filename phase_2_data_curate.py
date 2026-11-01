@@ -1,4 +1,5 @@
 import os
+import glob
 import argparse
 import tarfile
 import requests
@@ -19,29 +20,49 @@ Pipeline Steps
 [6/6] Generate statistics, export CSV and report
 """
 
-PISCES_TAR_URL = "http://dunbrack.fccc.edu/Guoli/culledpdb_hh/pisces_lists_2026_05_14.tar.gz"
+PISCES_TAR_URL = "https://dunbrack.fccc.edu/Guoli/culledpdb_hh/pisces_lists_2026_05_14.tar.gz"
 VALID_AA = set("ACDEFGHIKLMNPQRSTVWY")
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s | %(levelname)-8s | %(message)s', datefmt='%H:%M:%S')
 log = logging.getLogger(__name__)
 
+HEADERS = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+
 def get_pisces_list(raw_dir: str) -> set:
     allowed = set()
-    local_tar = os.path.join(raw_dir, "pisces_lists_2026_05_14.tar.gz")
-    
+
+    # 1. Check if a loose cullpdb file already exists in raw_dir
+    cull_files = [f for f in glob.glob(os.path.join(raw_dir, "cullpdb*")) if not f.endswith('.fasta')]
+    if cull_files:
+        log.info(f"  Found local culled PDB list: {cull_files[0]}. Using it.")
+        with open(cull_files[0], 'r', encoding='utf-8', errors='ignore') as f:
+            for i, line in enumerate(f):
+                line = line.strip()
+                if not line or i == 0: continue
+                parts = line.split()
+                if len(parts) > 0:
+                    pdb_id = parts[0][:4].upper()
+                    chain = parts[0][4:] if len(parts[0]) > 4 else (parts[1] if len(parts) > 1 else "")
+                    allowed.add(f"{pdb_id}_{chain}")
+        log.info(f"  Loaded {len(allowed):,} chains from local culled list.")
+        return allowed
+
+    # 2. Check if a local tarball exists
+    existing_tars = glob.glob(os.path.join(raw_dir, "*pisces*.tar.gz"))
+    local_tar = existing_tars[0] if existing_tars else os.path.join(raw_dir, "pisces_lists_2026_05_14.tar.gz")
+
     try:
-        log.info(f"  Attempting to download PISCES tarball from: {PISCES_TAR_URL}")
         if not os.path.exists(local_tar):
+            log.info(f"  Attempting to download PISCES tarball from: {PISCES_TAR_URL}")
             log.info("  Downloading...")
-            r = requests.get(PISCES_TAR_URL, stream=True, timeout=120)
+            r = requests.get(PISCES_TAR_URL, stream=True, timeout=300, headers=HEADERS, allow_redirects=True)
             r.raise_for_status()
-            total = int(r.headers.get('content-length', 0))
             with open(local_tar, 'wb') as f_out:
-                for chunk in r.iter_content(chunk_size=8192):
+                for chunk in r.iter_content(chunk_size=65536):
                     f_out.write(chunk)
             log.info(f"  Download complete: {local_tar}")
         else:
-            log.info(f"  Found local version: {local_tar}. Using local version instead.")
+            log.info(f"  Found local version: {local_tar}. Using local version.")
 
         with tarfile.open(local_tar, mode='r:gz') as tar:
             target = None
@@ -51,7 +72,7 @@ def get_pisces_list(raw_dir: str) -> set:
                     break
             if not target:
                 target = [m for m in tar.getmembers() if m.isfile()][0]
-                
+
             log.info(f"  Selected PISCES file: {target.name}")
             f = tar.extractfile(target)
             lines = f.read().decode('utf-8').splitlines()
@@ -63,10 +84,10 @@ def get_pisces_list(raw_dir: str) -> set:
                     pdb_id = parts[0][:4].upper()
                     chain = parts[0][4:] if len(parts[0]) > 4 else (parts[1] if len(parts) > 1 else "")
                     allowed.add(f"{pdb_id}_{chain}")
-                    
+
     except Exception as e:
         log.warning(f"  Failed to load PISCES ({e}).")
-    
+
     return allowed
 
 def main():
