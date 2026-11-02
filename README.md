@@ -17,6 +17,7 @@ A full end-to-end deep learning pipeline for predicting protein secondary struct
 [![Live App](https://img.shields.io/badge/🤗%20Live%20App-HF%20Spaces-blue)](https://huggingface.co/spaces/Chimera418/protein-ssp)
 [![Model Artifacts](https://img.shields.io/badge/🤗%20Artifacts-HF%20Model%20Hub-orange)](https://huggingface.co/Chimera418/protein-ssp-artifacts)
 [![GitHub](https://img.shields.io/badge/Source-GitHub-black)](https://github.com/Chimera418/protein-ssp)
+[![Guide](https://img.shields.io/badge/Docs-Setup%20%26%20Run%20Guide-green)](docs/DEPLOYMENT_AND_EXECUTION_GUIDE.md)
 
 ---
 
