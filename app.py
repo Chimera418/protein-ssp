@@ -1,50 +1,32 @@
 import os, re, pickle, sys
+os.environ["USE_TF"] = "0"
+os.environ["USE_TORCH"] = "1"
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 
 # ── NumPy cross-version pickle compatibility shim ─────────────────
-def _patch_numpy_pickle_compat():
-    try:
-        import numpy._core as _nc
-        import numpy._core.multiarray as _ma
-        if hasattr(_ma, '_reconstruct'):
-            setattr(_nc, '_reconstruct', getattr(_ma, '_reconstruct'))
-        if hasattr(_ma, 'scalar'):
-            setattr(_nc, 'scalar', getattr(_ma, 'scalar'))
-        sys.modules['numpy._core.multiarray'] = _ma
-        sys.modules['numpy.core.multiarray'] = _ma
-        sys.modules.setdefault('numpy.core', _nc)
-    except Exception:
-        pass
-
-    try:
-        import numpy.core as _c
-        import numpy.core.multiarray as _ma
-        if hasattr(_ma, '_reconstruct'):
-            setattr(_c, '_reconstruct', getattr(_ma, '_reconstruct'))
-        if hasattr(_ma, 'scalar'):
-            setattr(_c, 'scalar', getattr(_ma, 'scalar'))
-    except Exception:
-        pass
-
-_patch_numpy_pickle_compat()
-
 class RobustUnpickler(pickle.Unpickler):
     """Custom unpickler that seamlessly resolves cross-version numpy/sklearn pickled objects."""
     def find_class(self, module, name):
-        # 1. Resolve _reconstruct and scalar from wherever multiarray lives
+        # 1. Resolve _reconstruct and scalar directly from multiarray
         if name == '_reconstruct':
-            for root in [getattr(np, '_core', None), getattr(np, 'core', None)]:
-                if root is not None:
-                    ma = getattr(root, 'multiarray', None)
-                    if ma is not None and hasattr(ma, '_reconstruct'):
+            for mod_name in ['numpy._core.multiarray', 'numpy.core.multiarray']:
+                try:
+                    import importlib
+                    ma = importlib.import_module(mod_name)
+                    if hasattr(ma, '_reconstruct'):
                         return getattr(ma, '_reconstruct')
+                except Exception:
+                    pass
         if name == 'scalar':
-            for root in [getattr(np, '_core', None), getattr(np, 'core', None)]:
-                if root is not None:
-                    ma = getattr(root, 'multiarray', None)
-                    if ma is not None and hasattr(ma, 'scalar'):
+            for mod_name in ['numpy._core.multiarray', 'numpy.core.multiarray']:
+                try:
+                    import importlib
+                    ma = importlib.import_module(mod_name)
+                    if hasattr(ma, 'scalar'):
                         return getattr(ma, 'scalar')
+                except Exception:
+                    pass
             def _scalar_polyfill(dtype, data):
                 return np.frombuffer(data, dtype=dtype)[0]
             return _scalar_polyfill
@@ -238,13 +220,13 @@ MODE_CONFIG = {
         'recommended': True,
     },
     'selected_v1': {
-        'label': 'Feature Selected V1 (109-dim)',
-        'radio': 'Feature Selected V1 (109-dim)',
+        'label': 'Feature Selected V1 (105-dim)',
+        'radio': 'Feature Selected V1 (105-dim)',
         'model_path': 'models/phase_8_best_model_final_features.pt',
         'embedding_pkl': 'final_features.pkl',
-        'dims': 109,
+        'dims': 105,
         'q3': '84.21%', 'f1': '0.8413', 'auc': '0.9617',
-        'pipeline': 'ProtT5 → Pearson → PCA → ExtraTrees (109) → DL.',
+        'pipeline': 'ProtT5 → Pearson → PCA → ExtraTrees (105) → DL.',
         'recommended': False,
     },
     'selected_v2': {
@@ -303,11 +285,13 @@ def load_prott5():
     return tok, enc, device
 
 @st.cache_resource(show_spinner="Loading DL model…")
-def load_dl_model(path, input_dim):
+def load_dl_model(path, input_dim=None):
     ensure_model_exists(path)
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    m = SSPModel(input_dim).to(device)
-    m.load_state_dict(torch.load(path, map_location=device))
+    state_dict = torch.load(path, map_location=device)
+    actual_dim = state_dict['cnn.0.weight'].shape[1] if 'cnn.0.weight' in state_dict else input_dim
+    m = SSPModel(actual_dim).to(device)
+    m.load_state_dict(state_dict)
     m.eval()
     return m, device
 
@@ -365,6 +349,13 @@ def get_embeddings(seq, tok, enc, device):
 
 def predict(emb_np, model_path, input_dim):
     m, device = load_dl_model(model_path, input_dim)
+    model_dim = m.cnn[0].in_channels
+    if emb_np.shape[1] != model_dim:
+        if emb_np.shape[1] > model_dim:
+            emb_np = emb_np[:, :model_dim]
+        else:
+            pad = np.zeros((emb_np.shape[0], model_dim - emb_np.shape[1]), dtype=emb_np.dtype)
+            emb_np = np.hstack([emb_np, pad])
     x    = torch.tensor(emb_np, dtype=torch.float32).unsqueeze(0).to(device)
     mask = torch.ones(1, emb_np.shape[0], dtype=torch.bool).to(device)
     with torch.no_grad():
