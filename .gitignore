@@ -35,6 +35,7 @@ data/final_selected_features_v2.csv
 data/protein_sequences_raw.csv
 embeddings/
 docs/
+!docs/DEPLOYMENT_AND_EXECUTION_GUIDE.md
 misc/
 models/
 .env
