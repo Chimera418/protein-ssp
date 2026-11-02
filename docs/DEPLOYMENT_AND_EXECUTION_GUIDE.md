@@ -339,3 +339,4 @@ python upload_artifacts.py --embeddings    # Upload pre-computed embeddings (~26
   snapshot_download(repo_id="Chimera418/protein-ssp-artifacts", allow_patterns="models/*", local_dir=".")
   ```
   Once the ProtT5 cache (`~/.cache/huggingface/hub`) and `models/` directory are populated, the entire application runs 100% offline.
+

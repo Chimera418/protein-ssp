@@ -3,53 +3,76 @@ os.chdir(os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 
 # ── NumPy cross-version pickle compatibility shim ─────────────────
-# Pickles created by different numpy/sklearn versions embed different
-# internal module paths:
-#   numpy <1.24  → numpy.core.numeric, numpy.core.multiarray, …
-#   numpy 1.24-1.26 → numpy._core.numeric, numpy._core.multiarray, …
-#   numpy 2.x    → same _core package, but submodule paths changed
-#
-# Strategy: register every expected submodule path in sys.modules so
-# pickle.load() never raises ModuleNotFoundError regardless of which
-# numpy version created the file.
 def _patch_numpy_pickle_compat():
     try:
         import numpy._core as _nc
-    except ImportError:
-        try:
-            import numpy.core as _nc
-        except ImportError:
-            return  # nothing we can do
+        import numpy._core.multiarray as _ma
+        if hasattr(_ma, '_reconstruct'):
+            setattr(_nc, '_reconstruct', getattr(_ma, '_reconstruct'))
+        if hasattr(_ma, 'scalar'):
+            setattr(_nc, 'scalar', getattr(_ma, 'scalar'))
+        sys.modules['numpy._core.multiarray'] = _ma
+        sys.modules['numpy.core.multiarray'] = _ma
+        sys.modules.setdefault('numpy.core', _nc)
+    except Exception:
+        pass
 
-    # submodule names that sklearn / numpy pickles commonly reference
-    _submodules = [
-        'numeric', 'multiarray', 'umath', 'fromnumeric',
-        'function_base', 'shape_base', 'arrayprint',
-        'defchararray', 'records', 'memmap',
-        'getlimits', 'einsumfunc', 'overrides',
-    ]
-
-    for _name in _submodules:
-        _obj = getattr(_nc, _name, _nc)   # fall back to the package itself
-        # register under both numpy.core.X and numpy._core.X
-        sys.modules.setdefault(f'numpy.core.{_name}',  _obj)
-        sys.modules.setdefault(f'numpy._core.{_name}', _obj)
-
-    # also make sure the top-level aliases exist
-    sys.modules.setdefault('numpy.core',  _nc)
-    sys.modules.setdefault('numpy._core', _nc)
-
-    # fix for PCA model pickling missing 'scalar' in numpy 2.x
-    if not hasattr(_nc, 'scalar'):
-        _scalar = getattr(getattr(_nc, 'multiarray', None), 'scalar', None)
-        if _scalar is None:
-            # Polyfill for unpickling scalars if completely removed
-            def _scalar(dtype, data):
-                import numpy as np
-                return np.frombuffer(data, dtype=dtype)[0]
-        setattr(_nc, 'scalar', _scalar)
+    try:
+        import numpy.core as _c
+        import numpy.core.multiarray as _ma
+        if hasattr(_ma, '_reconstruct'):
+            setattr(_c, '_reconstruct', getattr(_ma, '_reconstruct'))
+        if hasattr(_ma, 'scalar'):
+            setattr(_c, 'scalar', getattr(_ma, 'scalar'))
+    except Exception:
+        pass
 
 _patch_numpy_pickle_compat()
+
+class RobustUnpickler(pickle.Unpickler):
+    """Custom unpickler that seamlessly resolves cross-version numpy/sklearn pickled objects."""
+    def find_class(self, module, name):
+        # 1. Resolve _reconstruct and scalar from wherever multiarray lives
+        if name == '_reconstruct':
+            for root in [getattr(np, '_core', None), getattr(np, 'core', None)]:
+                if root is not None:
+                    ma = getattr(root, 'multiarray', None)
+                    if ma is not None and hasattr(ma, '_reconstruct'):
+                        return getattr(ma, '_reconstruct')
+        if name == 'scalar':
+            for root in [getattr(np, '_core', None), getattr(np, 'core', None)]:
+                if root is not None:
+                    ma = getattr(root, 'multiarray', None)
+                    if ma is not None and hasattr(ma, 'scalar'):
+                        return getattr(ma, 'scalar')
+            def _scalar_polyfill(dtype, data):
+                return np.frombuffer(data, dtype=dtype)[0]
+            return _scalar_polyfill
+
+        # 2. Map module paths between numpy 1.x and 2.x
+        if 'numpy._core' in module:
+            try:
+                return super().find_class(module, name)
+            except (ModuleNotFoundError, AttributeError):
+                alt = module.replace('numpy._core', 'numpy.core')
+                try:
+                    return super().find_class(alt, name)
+                except (ModuleNotFoundError, AttributeError):
+                    pass
+        elif 'numpy.core' in module:
+            try:
+                return super().find_class(module, name)
+            except (ModuleNotFoundError, AttributeError):
+                alt = module.replace('numpy.core', 'numpy._core')
+                try:
+                    return super().find_class(alt, name)
+                except (ModuleNotFoundError, AttributeError):
+                    pass
+
+        return super().find_class(module, name)
+
+def robust_pickle_load(file_obj):
+    return RobustUnpickler(file_obj).load()
 # ──────────────────────────────────────────────────────────────────
 
 import pandas as pd
@@ -293,7 +316,7 @@ def load_pca():
     ensure_model_exists('models/pca_model.pkl')
     try:
         with open('models/pca_model.pkl', 'rb') as f:
-            return pickle.load(f)
+            return robust_pickle_load(f)
     except Exception as e:
         st.error(f"**Failed to load PCA model** — `{type(e).__name__}: {e}`")
         st.stop()
@@ -305,14 +328,14 @@ def load_keep_indices():
     if not os.path.exists(path):
         return None
     with open(path, 'rb') as f:
-        return pickle.load(f)
+        return robust_pickle_load(f)
 
 @st.cache_resource(show_spinner="Loading feature selector V1…")
 def load_selector_v1():
     ensure_model_exists('models/feature_selector_mask.pkl')
     try:
         with open('models/feature_selector_mask.pkl', 'rb') as f:
-            return pickle.load(f)['selected_indices']
+            return robust_pickle_load(f)['selected_indices']
     except Exception as e:
         st.error(f"**Failed to load selector V1** — `{type(e).__name__}: {e}`")
         st.stop()
@@ -322,7 +345,7 @@ def load_selector_v2():
     ensure_model_exists('models/feature_selector_mask_v2.pkl')
     try:
         with open('models/feature_selector_mask_v2.pkl', 'rb') as f:
-            return pickle.load(f)['selected_indices']
+            return robust_pickle_load(f)['selected_indices']
     except Exception as e:
         st.error(f"**Failed to load selector V2** — `{type(e).__name__}: {e}`")
         st.stop()
